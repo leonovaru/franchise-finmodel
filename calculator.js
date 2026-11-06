@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  const SEASONALITY = [1.1, 1.1, 1, 1, 1.1, 1.2, 1, 1, 1.1, 1.2, 1, 1];
+  const DEFAULT_SEASONALITY = [60, 80, 80, 100, 80, 90, 90, 100, 130, 130, 130, 115];
   const value = (p, key) => Math.max(0, Number(p[key]) || 0);
   const sumRows = rows => (Array.isArray(rows) ? rows : []).reduce((sum, row) => {
     const amount = Math.max(0, Number(row.amount) || 0);
@@ -43,7 +43,8 @@
     for (let i = 0; i < 24; i++) {
       const date = new Date(startYear, startMonth + i, 1);
       const growth = Math.min(1, firstMonthLoad + ((1 - firstMonthLoad) * i / ramp));
-      const season = p.seasonality === 'no' ? 1 : SEASONALITY[date.getMonth()];
+      const seasonalPercentages = Array.isArray(p.seasonalityMonthly) && p.seasonalityMonthly.length === 12 ? p.seasonalityMonthly : DEFAULT_SEASONALITY;
+      const season = Math.max(0, Number(seasonalPercentages[date.getMonth()]) || 0) / 100;
       const revenue = target * growth * season * serviceShare;
 
       const technicalPayroll = i === 0 ? 0 : i <= 2
@@ -67,10 +68,7 @@
 
       // УСН 6% — формула исходной книги. УСН 15% — временное приближение,
       // пока заказчик не подтвердит налоговую методику и учёт страховых взносов.
-      const taxRate = Number(p.tax) || 6;
-      const tax = taxRate === 15
-        ? Math.max(0, revenue - expensesBeforeTax) * 0.15
-        : revenue * 0.06;
+      const tax = Math.max(0, revenue - expensesBeforeTax) * 0.15;
 
       const expenses = expensesBeforeTax + tax;
       const profit = revenue - expenses;
