@@ -21,12 +21,12 @@
 <div class="main-grid"><section class="panel">
 <section class="screen" data-screen="0"><div class="panel-head"><div><h2>Общие данные</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
 <div class="fields">
-<div class="field"><label>Категория исходной модели</label><div class="control" style="display:flex;align-items:center;background:#f7f9fc">2 категория · до 1 млн жителей</div><span class="hint">Оставлено как в Excel. На актуальной странице франшизы используются названия пакетов «Специалист» и «Эксперт» — их соответствие исходной категории нужно согласовать.</span></div>
+<div class="field"><label for="package">Пакет франшизы</label><select class="control" id="package"><option value="specialist">Специалист</option><option value="expert">Эксперт</option></select><span class="hint">Пакеты приведены к актуальному публичному предложению компании. Отдельные цены для пакетов в открытых условиях не опубликованы.</span></div>
 <div class="field"><label for="legal">Организационная форма</label><select class="control" id="legal"><option>ИП</option><option>ООО</option></select></div>
 <div class="field"><label for="tax">Система налогообложения</label><select class="control" id="tax"><option value="6">УСН · доходы 6%</option><option value="15">УСН · доходы минус расходы 15%</option></select><span class="hint">Расчёт 15% пока упрощённый: без минимального налога и корректировок на страховые взносы. Налоговую методику нужно подтвердить.</span></div>
 <div class="field"><label for="start">Планируемый месяц запуска</label><input class="control" id="start" type="month" value="2026-12"></div>
-<div class="field"><label for="royalty">Ежемесячное роялти</label><div class="suffix"><input class="control" id="royalty" type="number" min="0" value="25000"><em>₽</em></div><span class="hint">Значение из исходной финансовой модели.</span></div>
-<div class="field"><label for="fee">Паушальный взнос</label><div class="suffix"><input class="control" id="fee" type="number" min="0" value="850000"><em>₽</em></div></div>
+<div class="field"><label for="royalty">Ежемесячное роялти</label><div class="suffix"><input class="control" id="royalty" type="number" min="0" value="25000"><em>₽</em></div><span class="hint">Фиксированное роялти по опубликованным условиям франшизы.</span></div>
+<div class="field"><label for="fee">Паушальный взнос</label><div class="suffix"><input class="control" id="fee" type="number" min="0" value="850000"><em>₽</em></div><span class="hint">От 850 000 ₽. Уточните точную сумму для выбранного пакета у франчайзера; поле можно скорректировать.</span></div>
 </div></section>
 <section class="screen hidden" data-screen="1"><div class="panel-head"><div><h2>Первоначальные инвестиции</h2><p class="sub">Укажите расходы, необходимые для запуска филиала. Часть сумм уже заполнена по исходной модели — их можно изменить под свой город.</p></div><span class="section-tag">ШАГ 2 ИЗ 4</span></div>
 <div class="fields">
@@ -79,7 +79,7 @@
 </main><div class="toast" id="toast"></div></div>
 <script src="./calculator.js"></script>
 <script>
-const $=id=>document.getElementById(id), ids=['legal','tax','start','royalty','fee','area','rent','deposit','repair','uniform','hiring','print','revenue','ramp','firstMonth','seasonality','manager','admin','tech','house','connection','accounting','marketing','contractors'];
+const $=id=>document.getElementById(id), ids=['package','legal','tax','start','royalty','fee','area','rent','deposit','repair','uniform','hiring','print','revenue','ramp','firstMonth','seasonality','manager','admin','tech','house','connection','accounting','marketing','contractors'];
 const defaults={};ids.forEach(id=>defaults[id]=$(id).value);
 const defaultDynamic={
  furnitureItems:[{name:'Столы',qty:2,price:8000},{name:'Стулья',qty:2,price:5000},{name:'Шкаф',qty:1,price:8000}],
