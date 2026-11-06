@@ -231,10 +231,9 @@ body{font-size:16px}
 </div></section>
 <section class="screen hidden" data-screen="2"><div class="panel-head"><div><h2>Продажи и ежемесячные расходы</h2><p class="sub">Настройте план продаж и основные расходы филиала. Прогноз строится на 24 месяца с постепенным выходом на плановую выручку.</p></div><span class="section-tag">ШАГ 3 ИЗ 4</span></div>
 <div class="fields">
-<div class="group-title">Структура услуг</div><div class="field full"><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Можно добавить новые направления.</p><div id="serviceRows" class="dynamic-table"></div><button class="btn btn-ghost add-row" type="button" data-add="services">＋ Добавить услугу</button></div>
 <div class="field full"><div class="seasonality-plan-grid">
 <div class="seasonality-column"><div class="group-title">Сезонность продаж</div><div id="seasonalityRows" class="dynamic-table"></div><p class="hint">Коэффициенты применяются к плановой выручке соответствующего календарного месяца. Среднее значение рассчитывается автоматически.</p></div>
-<div class="plan-column"><div class="group-title">План продаж</div>
+<div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Можно добавить новые направления.</p><div id="serviceRows" class="dynamic-table"></div><button class="btn btn-ghost add-row" type="button" data-add="services">＋ Добавить услугу</button><div class="group-title">План продаж</div>
 <div class="field"><label for="revenue">Плановая выручка в месяц</label><div class="suffix"><input class="control" id="revenue" type="number" value="1450000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="ramp">Выход на плановую выручку</label><div class="suffix"><input class="control" id="ramp" type="number" value="7" min="1" max="24"><em>мес.</em></div></div>
 <div class="field"><label for="firstMonth">Загрузка в первый месяц</label><div class="suffix"><input class="control" id="firstMonth" type="number" value="12" min="0" max="100"><em>%</em></div></div>
