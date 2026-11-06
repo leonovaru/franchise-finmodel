@@ -84,14 +84,49 @@ body{font-size:16px}
  .result-tile strong{font-size:19px}
 }
 
+
+/* Точечная настройка шапки и итоговой сводки */
+.topbar{padding:0 max(28px,calc((100% - 1680px)/2));min-height:100px}
+.brand{gap:22px}
+.brand-logo{width:210px;height:76px}
+.brand-caption{font-size:20px;line-height:1.25;font-weight:800;letter-spacing:.35px;color:#fff}
+.main-grid{grid-template-columns:270px minmax(0,1fr);gap:26px}
+.steps-sidebar{display:flex;flex-direction:column;gap:18px}
+.sidecard{display:none;margin:0;padding:18px 16px;grid-template-columns:minmax(0,1fr);gap:12px;box-shadow:none;border-radius:14px;background:#fffafa}
+.sidecard h3{grid-column:auto;font-size:18px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.sidecard .metric{border:0;border-top:1px solid var(--line);padding:10px 2px 0}
+.sidecard .metric:first-of-type{border-top:0}
+.sidecard .metric span{font-size:12px}
+.sidecard .metric strong{font-size:22px}
+.sidecard .note{margin-top:2px;font-size:11px}
+@media(max-width:950px){
+ .topbar{padding:0 22px;min-height:88px}
+ .brand-logo{width:175px;height:64px}
+ .brand-caption{font-size:17px}
+ .main-grid{grid-template-columns:1fr}
+ .steps-sidebar{display:flex;flex-direction:column;gap:14px}
+ .sidecard{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .sidecard h3,.sidecard .note{grid-column:1/-1}
+ .sidecard .metric{border-top:1px solid var(--line);padding:10px 2px}
+}
+@media(max-width:560px){
+ .topbar{min-height:74px;height:74px;padding:0 12px}
+ .brand{gap:10px}
+ .brand-logo{width:112px;height:54px}
+ .brand-caption{font-size:11px;max-width:150px}
+ .topmeta{display:none}
+ .sidecard{grid-template-columns:1fr 1fr;padding:14px}
+ .sidecard .metric strong{font-size:17px}
+ .sidecard .metric span{font-size:10px}
+}
+
 </style></head>
 <body><div class="shell">
-<header class="topbar"><div class="brand"><img class="brand-logo" src="https://znak112.ru/wp-content/uploads/2026/01/logo9.png" alt="Логотип ПожзнакЪ"><div>ПОЖЗНАКЪ<small>ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</small></div></div><div class="topmeta">Пожарная безопасность · Предварительный расчёт</div></header>
+<header class="topbar"><div class="brand"><img class="brand-logo" src="https://znak112.ru/wp-content/uploads/2026/01/logo9.png" alt="Логотип ПожзнакЪ"><div class="brand-caption">ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</div></div><div class="topmeta">Предварительный расчёт</div></header>
 <main class="layout">
-<div class="hero"><div><div class="eyebrow">Франшиза услуг пожарной безопасности</div><h1>Рассчитайте экономику<br>филиала «ПожзнакЪ»</h1><p>Настройте параметры будущего филиала, оцените инвестиции, выручку, ежемесячные расходы и срок окупаемости.</p></div><div class="draft">ПРОТОТИП</div></div>
-<aside class="sidecard"><h3>Ваш расчёт</h3><div class="metric"><span>Инвестиции на запуск</span><strong id="sideInvest">—</strong></div><div class="metric"><span>Плановая выручка</span><strong id="sideRevenue">1,45 млн ₽</strong></div><div class="metric"><span>Горизонт прогноза</span><strong>24 <small>месяца</small></strong></div><div class="note">Все суммы можно изменить. Итоговые показатели обновляются автоматически по мере заполнения.</div></aside>
 <div class="main-grid"><div class="steps-sidebar"><div class="progress" id="progress"><div class="step active"><span></span></div><div class="step"><span></span></div><div class="step"><span></span></div><div class="step"><span></span></div></div>
-<div class="step-labels"><span class="current">Общие данные</span><span>Инвестиции</span><span>Продажи и расходы</span><span>Результат</span></div></div><section class="panel">
+<div class="step-labels"><span class="current">Общие данные</span><span>Инвестиции</span><span>Продажи и расходы</span><span>Результат</span></div><aside class="sidecard"><h3>Ваш расчёт</h3><div class="metric"><span>Инвестиции на запуск</span><strong id="sideInvest">—</strong></div><div class="metric"><span>Плановая выручка</span><strong id="sideRevenue">1,45 млн ₽</strong></div><div class="metric"><span>Горизонт прогноза</span><strong>24 <small>месяца</small></strong></div><div class="note">Все суммы можно изменить. Итоговые показатели обновляются автоматически по мере заполнения.</div></aside>
+</div><section class="panel">
 <section class="screen" data-screen="0"><div class="panel-head"><div><h2>Общие данные</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
 <div class="fields">
 <div class="field"><label for="package">Пакет франшизы</label><select class="control" id="package"><option value="specialist">Специалист</option><option value="expert">Эксперт</option></select><span class="hint">Пакеты приведены к актуальному публичному предложению компании. Отдельные цены для пакетов в открытых условиях не опубликованы.</span></div>
@@ -167,7 +202,7 @@ function params(){return {...Object.fromEntries(ids.map(id=>[id,$(id).value])),.
 function invest(){return window.FranchiseCalculator.investment(params())}
 function model(){return window.FranchiseCalculator.calculate(params())}
 function render(){const m=model();$('sideInvest').textContent=short(m.investment);$('sideRevenue').textContent=short(m.target);$('outInvest').textContent=short(m.investment);$('outRevenue').textContent=short(m.target);$('outPayback').textContent=m.payback?m.payback+' мес.':'Более 24 мес.';$('outProfit').textContent=short(m.avg);$('outTotal').textContent=short(m.totalRevenue);$('outNet').textContent=short(m.totalProfit);$('summary').innerHTML=[['Инвестиции на запуск',rub(m.investment)],['Выручка за 24 месяца',rub(m.totalRevenue)],['Расходы и налоги за 24 месяца',rub(m.totalRevenue-m.totalProfit)],['Чистая прибыль за 24 месяца',rub(m.totalProfit)],['Средняя рентабельность',((m.totalProfit/Math.max(1,m.totalRevenue))*100).toFixed(1).replace('.',',')+'%']].map(x=>'<tr><td>'+x[0]+'</td><td>'+x[1]+'</td></tr>').join('');if(chart)chart.destroy();if(window.Chart){chart=new Chart($('financeChart'),{type:'bar',data:{labels:m.months.map(x=>x.label),datasets:[{label:'Выручка',data:m.months.map(x=>Math.round(x.revenue)),backgroundColor:'#b9c9ff',borderRadius:4},{label:'Расходы',data:m.months.map(x=>Math.round(x.expenses)),backgroundColor:'#dce2eb',borderRadius:4},{label:'Прибыль',data:m.months.map(x=>Math.round(x.profit)),backgroundColor:'#315cf5',borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{usePointStyle:true,boxWidth:7,font:{family:'Manrope',size:10}}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:0,autoSkip:false}},y:{grid:{color:'#edf0f5'},ticks:{callback:v=>short(v),font:{size:9}}}}}})}}
-function show(){document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('hidden',i!==step));document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i<=step)});document.querySelectorAll('.step-labels span').forEach((el,i)=>el.classList.toggle('current',i===step));$('back').disabled=step===0;$('next').textContent=step===3?'Пересчитать':'Продолжить →';if(step===3)render();window.scrollTo({top:0,behavior:'smooth'})}
+function show(){document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('hidden',i!==step));document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i<=step)});document.querySelectorAll('.step-labels span').forEach((el,i)=>el.classList.toggle('current',i===step));$('back').disabled=step===0;document.querySelector('.steps-sidebar .sidecard').style.display=step===3?'grid':'none';$('next').textContent=step===3?'Пересчитать':'Продолжить →';if(step===3)render();window.scrollTo({top:0,behavior:'smooth'})}
 function save(){const data={};ids.forEach(id=>data[id]=$(id).value);data.dynamic=dynamic;localStorage.setItem('franchise-finmodel-draft',JSON.stringify(data));}
 function load(){try{const data=JSON.parse(localStorage.getItem('franchise-finmodel-draft')||'{}');ids.forEach(id=>{if(data[id]!==undefined)$(id).value=data[id]});if(data.dynamic){Object.keys(defaultDynamic).forEach(k=>{if(Array.isArray(data.dynamic[k]))dynamic[k]=data.dynamic[k]})}}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
