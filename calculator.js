@@ -51,7 +51,7 @@
         : revenue * 0.25;
       const insurance = i < 2 ? 26100 : 34800;
       const royalty = i === 0 ? 0 : value(p, 'royalty');
-      const rent = value(p, 'rentMonthly');
+      const rent = value(p, 'area') * value(p, 'rent');
       const managementPayroll = value(p, 'manager');
       const administrativePayroll = value(p, 'admin');
       const household = value(p, 'house');
