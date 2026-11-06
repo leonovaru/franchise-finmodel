@@ -127,7 +127,7 @@ body{font-size:16px}
 
 .pdf-export-row{display:flex;align-items:center;gap:14px;margin:18px 0 8px}.pdf-export-row span{font-size:12px;color:var(--muted)}
 @media(max-width:560px){.pdf-export-row{align-items:flex-start;flex-direction:column}}
-/* Вкладки итогового финансового отчёта и более крупная визуализация */
+body.pdf-exporting .result-tab-panel,body.pdf-exporting .sidebar-results{visibility:hidden!important}\n/* Вкладки итогового финансового отчёта и более крупная визуализация */
 .result-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .result-tab{border:1px solid transparent;background:#f7eeee;color:#6d3337;border-radius:10px;padding:13px 17px;font-weight:800;font-size:13px}
 .result-tab.active{background:#c91f2b;color:#fff;box-shadow:0 6px 16px rgba(201,31,43,.18)}
@@ -347,6 +347,7 @@ async function exportFullPdf(){
  if(!window.html2canvas||!window.jspdf?.jsPDF){toast('Не удалось загрузить модуль PDF. Обновите страницу и попробуйте снова.');return}
  const originalTab=document.querySelector('.result-tab.active')?.dataset.resultTab||'investments';
  button.disabled=true;button.textContent='Готовим PDF…';
+ document.body.classList.add('pdf-exporting');
  try{
   const m=model(),breakdown=investmentBreakdown();
   const money=n=>rub(n),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -360,12 +361,12 @@ async function exportFullPdf(){
    if(source){
     const exportCanvas=document.createElement('canvas');
     exportCanvas.width=key==='investment'?1600:2400;
-    exportCanvas.height=key==='investment'?1600:800;
+    exportCanvas.height=key==='investment'?1600:(key==='finance'?620:800);
     const pdfPlugins=key==='investment'?[{
      id:'pdfPercentLabels',
      afterDatasetsDraw(chart){
       const ctx=chart.ctx,values=chart.data.datasets[0]?.data||[],total=values.reduce((sum,value)=>sum+(Number(value)||0),0),arcs=chart.getDatasetMeta(0).data;
-      ctx.save();ctx.font='bold 28px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff';ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=3;
+      ctx.save();ctx.font='900 38px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#fff';ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=3;
       arcs.forEach((arc,index)=>{const value=Number(values[index])||0;if(!total||!value)return;const angle=(arc.startAngle+arc.endAngle)/2;const radius=(arc.innerRadius+arc.outerRadius)/2;ctx.fillText(Math.round(value/total*100)+'%',arc.x+Math.cos(angle)*radius,arc.y+Math.sin(angle)*radius)});
       ctx.restore();
      }
@@ -427,14 +428,14 @@ async function exportFullPdf(){
   const chartYears=()=>'';
   const miniGrid=blocks=>'<div class="mini-grid">'+blocks.map(rows=>'<div>'+monthTable(rows,['Месяц',...rows[0].slice(1).map((_,i)=>['Показатель 1','Показатель 2','Показатель 3'][i])])+'</div>').join('')+'</div>';
   const investmentDetail='<div class="detail-table"><table><thead><tr><th>Статья инвестиций</th><th>Сумма</th></tr></thead><tbody>'+investmentRows.map((row,i)=>'<tr><td><i style="background:'+colorSet[['Паушальный взнос','Обеспечительный платёж','Ремонт помещения','Офисная мебель','Офисное оборудование','Рабочий инструмент и оборудование','Другие стартовые затраты'].indexOf(row[2])%colorSet.length]+'"></i>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td></tr>').join('')+'<tr class="total"><td>Всего инвестиций</td><td>'+money(m.investment)+'</td></tr></tbody></table></div>';
-  const profitData=m.months.map(x=>[monthName(x),money(x.profit),money(x.cumulative)]);
-  const salesData=m.months.map(x=>[monthName(x),...dynamic.services.map(service=>money(x.revenue*(Number(service.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))),money(x.revenue)]);
+  const profitData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||''),money(x.profit),money(x.cumulative)]);
+  const salesData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||''),...dynamic.services.map(service=>money(x.revenue*(Number(service.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))),money(x.revenue)]);
   const financeData=m.months.map(x=>[monthName(x),money(x.revenue),money(x.expenses),money(x.profit)]);
-  const monthsGrid=(rows,headers)=>'<div class="months-grid">'+[rows.slice(0,12),rows.slice(12,24)].map(block=>'<div class="month-block">'+monthTable(block,headers)+'</div>').join('')+'</div>';
+  const monthsGrid=(rows,headers,columns=2)=>{const blocks=columns===3?[rows.slice(0,8),rows.slice(8,16),rows.slice(16,24)]:[rows.slice(0,12),rows.slice(12,24)];return '<div class="months-grid cols-'+columns+'">'+blocks.map(block=>'<div class="month-block">'+monthTable(block,headers)+'</div>').join('')+'</div>'};
   const pages=[
    '<article class="page">'+header('1. Инвестиции на запуск','Структура первоначальных вложений и подробная расшифровка статей')+'<div class="investment-content"><div class="donut"><img src="'+chartsPng.investment+'"></div>'+investmentDetail+'</div></article>',
-   '<article class="page">'+header('2. Прибыль и окупаемость по месяцам','Прибыль за месяц и накопленный денежный поток')+'<div class="chart"><img src="'+chartsPng.profit+'"></div>'+monthsGrid(profitData,['Месяц','Прибыль','Накопленный поток'])+'</article>',
-   '<article class="page">'+header('3. Продажи','Распределение выручки по направлениям и динамика за 24 месяца')+'<div class="chart"><img src="'+chartsPng.sales+'"></div>'+monthsGrid(salesData,['Месяц',...dynamic.services.map(x=>x.name||'Направление'),'Всего'])+'</article>',
+   '<article class="page">'+header('2. Прибыль и окупаемость по месяцам','Прибыль за месяц и накопленный денежный поток')+'<div class="chart"><img src="'+chartsPng.profit+'"></div>'+monthsGrid(profitData,['Месяц','Прибыль','Накопленный поток'],3)+'</article>',
+   '<article class="page">'+header('3. Продажи','Распределение выручки по направлениям и динамика за 24 месяца')+'<div class="chart"><img src="'+chartsPng.sales+'"></div>'+monthsGrid(salesData,['Месяц',...dynamic.services.map(x=>x.name||'Направление'),'Всего'],3)+'</article>',
    '<article class="page">'+header('4. Выручка, расходы и прибыль','Финансовая динамика и подробный состав ежемесячных расходов')+'<div class="chart short"><img src="'+chartsPng.finance+'"></div>'+'<div class="finance-bottom"><div>'+monthsGrid(financeData,['Месяц','Выручка','Расходы','Прибыль'])+'</div><div class="expense-table"><h2>Статьи ежемесячных расходов</h2><table><thead><tr><th>Статья</th><th>Сумма / условие</th><th>Период</th></tr></thead><tbody>'+monthlyRows.map(row=>'<tr><td>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td><td>'+safe(row[2])+'</td></tr>').join('')+'</tbody></table></div></div></article>'
   ];
   const host=document.createElement('div');host.id='pdfRenderHost';host.innerHTML=pages.join('');
@@ -451,11 +452,11 @@ async function exportFullPdf(){
   #pdfRenderHost table{border-collapse:collapse;width:100%;font-size:11px}#pdfRenderHost th{text-align:center;background:#faeeee;color:#76343a;font-size:10px;padding:6px}#pdfRenderHost td{padding:5px 6px;border-bottom:1px solid #eee;vertical-align:middle}#pdfRenderHost td:not(:first-child){text-align:center;white-space:nowrap}
   #pdfRenderHost .detail-table{max-height:585px;overflow:hidden}#pdfRenderHost .detail-table i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}
   #pdfRenderHost .total td{font-weight:800;background:#fff5f5}
-  #pdfRenderHost .chart{height:350px;margin:0 0 4px;display:flex;justify-content:center;align-items:center}#pdfRenderHost .chart img{width:100%;height:100%;object-fit:fill}
-  #pdfRenderHost .chart.short{height:230px;margin-bottom:3px}
-  #pdfRenderHost .months-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
-  #pdfRenderHost .month-block table{font-size:10px}#pdfRenderHost .month-block th{font-size:9px;padding:4px 5px}#pdfRenderHost .month-block td{padding:4px 5px}
-  #pdfRenderHost .finance-bottom{display:grid;grid-template-columns:58% 42%;gap:12px}
+  
+  #pdfRenderHost .chart{height:350px;margin:0 0 18px;display:flex;justify-content:center;align-items:center}#pdfRenderHost .chart img{width:100%;height:100%;object-fit:fill}\n  #pdfRenderHost .chart.short{height:270px;margin-bottom:16px}
+  #pdfRenderHost .months-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 16px;margin-top:4px}#pdfRenderHost .months-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 12px}
+  #pdfRenderHost .month-block table{font-size:9px}#pdfRenderHost .month-block th{font-size:8px;padding:4px 4px}#pdfRenderHost .month-block td{font-size:9px;padding:4px 4px}#pdfRenderHost .month-block td:first-child{text-align:center;white-space:nowrap}#pdfRenderHost .months-grid.cols-3 .month-block table{font-size:8px}#pdfRenderHost .months-grid.cols-3 .month-block th{font-size:7px;padding:3px 3px}#pdfRenderHost .months-grid.cols-3 .month-block td{font-size:8px;padding:4px 3px}
+  #pdfRenderHost .finance-bottom{display:grid;grid-template-columns:minmax(0,58fr) minmax(0,42fr);gap:12px;height:270px;align-items:stretch;margin-top:0}#pdfRenderHost .finance-bottom>div,#pdfRenderHost .finance-bottom .expense-table{height:100%;min-height:0;overflow:hidden}#pdfRenderHost .finance-bottom .months-grid{height:100%;align-content:start}
   #pdfRenderHost .expense-table h2{font-size:13px;margin:0 0 5px;color:#76343a}#pdfRenderHost .expense-table table{font-size:9px}#pdfRenderHost .expense-table th{font-size:8px;padding:4px}#pdfRenderHost .expense-table td{font-size:8px;padding:3px 4px}
   `;
   document.head.appendChild(style);document.body.appendChild(host);
@@ -470,7 +471,7 @@ async function exportFullPdf(){
   pdf.save('Финансовая-модель-ПожзнакЪ.pdf');
   host.remove();style.remove();toast('PDF скачивается');
  }catch(error){console.error(error);document.getElementById('pdfRenderHost')?.remove();toast('Не удалось сформировать PDF. Попробуйте ещё раз.')}
- finally{button.disabled=false;button.textContent='Скачать PDF'}
+ finally{document.body.classList.remove('pdf-exporting');button.disabled=false;button.textContent='Скачать PDF'}
 }
 function activateResultTab(name){document.querySelectorAll('.result-tab').forEach(b=>b.classList.toggle('active',b.dataset.resultTab===name));document.querySelectorAll('.result-tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.resultPanel===name));const chartKey=name==='profit'?'profit':name==='sales'?'sales':name==='finance'?'finance':null;if(chartKey&&charts[chartKey]){charts[chartKey].resize();const yearId=name==='profit'?'profitYears':name==='sales'?'salesYears':'financeYears';alignYearGroups(yearId,chartKey);}}
 function show(){document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('hidden',i!==step));const sidebarResults=$('sidebarResults');if(sidebarResults)sidebarResults.classList.toggle('hidden',step!==3);document.querySelectorAll('.step-labels span').forEach((el,i)=>el.classList.toggle('current',i===step));$('back').disabled=step===0;$('next').textContent=step===3?'Пересчитать':'Продолжить →';if(step===3)render();window.scrollTo({top:0,behavior:'smooth'})}
