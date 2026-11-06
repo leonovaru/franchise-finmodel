@@ -53,7 +53,7 @@
 <div class="field"><label for="firstMonth">Загрузка в первый месяц</label><div class="suffix"><input class="control" id="firstMonth" type="number" value="12" min="0" max="100"><em>%</em></div></div>
 <div class="field"><label for="seasonality">Учитывать сезонность</label><select class="control" id="seasonality"><option value="yes">Да, по исходной модели</option><option value="no">Нет, равномерно</option></select></div>
 <div class="group-title">Ежемесячные расходы</div>
-<div class="field"><label for="rentMonthly">Аренда помещения</label><div class="suffix"><input class="control" id="rentMonthly" type="number" value="25000" min="0"><em>₽</em></div></div>
+<div class="field"><label>Аренда помещения в месяц</label><div class="control" id="rentMonthlyDisplay" style="display:flex;align-items:center;background:#f7f9fc">25 000 ₽</div><span class="hint">Рассчитывается автоматически: площадь × ставка за м².</span></div>
 <div class="field"><label for="manager">Фонд оплаты управленческого персонала</label><div class="suffix"><input class="control" id="manager" type="number" value="110000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="admin">Фонд оплаты административного персонала</label><div class="suffix"><input class="control" id="admin" type="number" value="75000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="tech">Оклад одного технического специалиста во 2–3-й месяц</label><div class="suffix"><input class="control" id="tech" type="number" value="70000" min="0"><em>₽</em></div><span class="hint">Далее в исходной модели ФОТ двух специалистов составляет 25% выручки.</span></div>
@@ -79,7 +79,7 @@
 </main><div class="toast" id="toast"></div></div>
 <script src="./calculator.js"></script>
 <script>
-const $=id=>document.getElementById(id), ids=['legal','tax','start','royalty','fee','area','rent','deposit','repair','uniform','hiring','print','revenue','ramp','firstMonth','seasonality','rentMonthly','manager','admin','tech','house','connection','accounting','marketing','contractors'];
+const $=id=>document.getElementById(id), ids=['legal','tax','start','royalty','fee','area','rent','deposit','repair','uniform','hiring','print','revenue','ramp','firstMonth','seasonality','manager','admin','tech','house','connection','accounting','marketing','contractors'];
 const defaults={};ids.forEach(id=>defaults[id]=$(id).value);
 const defaultDynamic={
  furnitureItems:[{name:'Столы',qty:2,price:8000},{name:'Стулья',qty:2,price:5000},{name:'Шкаф',qty:1,price:8000}],
@@ -109,5 +109,5 @@ document.addEventListener('input',updateDynamicInput);
 document.addEventListener('click',e=>{const add=e.target.closest('[data-add]');if(add){const key=add.dataset.add;if(key==='services')dynamic.services.push({name:'Новая услуга',share:0});else if(key==='startupItems'||key==='monthlyItems')dynamic[key].push({name:'Новая статья',amount:0});else dynamic[key].push({name:'Новая позиция',qty:1,price:0});renderDynamic();save();$('sideInvest').textContent=short(invest());return;}const del=e.target.closest('[data-remove]');if(del){dynamic[del.dataset.remove].splice(Number(del.dataset.index),1);renderDynamic();save();$('sideInvest').textContent=short(invest());if(step===3)render();}});
 
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
-ids.forEach(id=>$(id).addEventListener('input',()=>{save();$('sideInvest').textContent=short(invest());$('sideRevenue').textContent=short(num('revenue'))}));$('next').onclick=()=>{if(step<3){step++;show()}else{render();toast('Расчёт обновлён')}};$('back').onclick=()=>{if(step>0){step--;show()}};$('reset').onclick=()=>{if(confirm('Сбросить все введённые данные?')){ids.forEach(id=>$(id).value=defaults[id]);dynamic=JSON.parse(JSON.stringify(defaultDynamic));localStorage.removeItem('franchise-finmodel-draft');renderDynamic();step=0;show();render();toast('Данные сброшены')}};load();renderDynamic();$('sideInvest').textContent=short(invest());show();
+ids.forEach(id=>$(id).addEventListener('input',()=>{save();$('sideInvest').textContent=short(invest());$('sideRevenue').textContent=short(num('revenue'));$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'))}));$('next').onclick=()=>{if(step<3){step++;show()}else{render();toast('Расчёт обновлён')}};$('back').onclick=()=>{if(step>0){step--;show()}};$('reset').onclick=()=>{if(confirm('Сбросить все введённые данные?')){ids.forEach(id=>$(id).value=defaults[id]);dynamic=JSON.parse(JSON.stringify(defaultDynamic));localStorage.removeItem('franchise-finmodel-draft');renderDynamic();step=0;show();render();toast('Данные сброшены')}};load();renderDynamic();$('sideInvest').textContent=short(invest());$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'));show();
 </script></body></html>
