@@ -167,6 +167,7 @@ body{font-size:16px}
 @media(max-width:560px){.brand-caption{font-size:12px;white-space:normal;width:48%;left:auto;right:10px;transform:none;text-align:center;line-height:1.15}}
 
 /* Улучшение навигации, плотности экранов и читаемости отчёта */
+.investment-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:9px;vertical-align:middle}
 .progress{display:none!important}
 .sidebar-results{display:flex;flex-direction:column;gap:7px;padding-top:12px;border-top:1px solid var(--line)}
 .sidebar-results.hidden{display:none!important}
@@ -316,7 +317,7 @@ function monthLabels(months){return months.map(m=>{const d=new Date(m.label);ret
 function renderYearGroups(targetId,months){const groups=[];months.forEach((m,i)=>{const year=m.yearLabel||m.label.split(' ').slice(-1)[0];let g=groups[groups.length-1];if(!g||g.year!==year){g={year,count:0};groups.push(g)}g.count++});$(targetId).innerHTML=groups.map(g=>'<div class="year-group" style="flex:'+g.count+'"><span>'+g.year+'</span></div>').join('')}
 function alignYearGroups(targetId,chartKey){const chart=charts[chartKey],el=$(targetId);if(!chart||!el||!chart.chartArea)return;const canvasWidth=chart.canvas.clientWidth||1;const scale=chart.width/canvasWidth||1;el.style.marginLeft=(chart.chartArea.left/scale)+'px';el.style.marginRight=((chart.width-chart.chartArea.right)/scale)+'px'}
 function render(){const m=model();$('outInvest').textContent=short(m.investment);$('outRevenue').textContent=short(m.target);$('outPayback').textContent=m.payback?m.payback+' мес.':'Более 24 мес.';$('outProfit').textContent=short(m.avg);$('outTotal').textContent=short(m.totalRevenue);$('outNet').textContent=short(m.totalProfit);
-const breakdown=investmentBreakdown();$('investmentBreakdown').innerHTML=breakdown.map(x=>'<tr><td>'+x[0]+'</td><td>'+rub(x[1])+'</td></tr>').join('')+'<tr><td><strong>Всего инвестиций</strong></td><td>'+rub(m.investment)+'</td></tr>';
+const breakdown=investmentBreakdown();const breakdownColors=['#c91f2b','#e77b82','#f1b5b9','#a9a9a9','#d7b0a5','#9c6b6f','#e5d5d5','#777'];$('investmentBreakdown').innerHTML=breakdown.map((x,i)=>'<tr><td><span class="investment-dot" style="background:'+breakdownColors[i%breakdownColors.length]+'"></span>'+x[0]+'</td><td>'+rub(x[1])+'</td></tr>').join('')+'<tr><td><strong>Всего инвестиций</strong></td><td>'+rub(m.investment)+'</td></tr>';
 const labels=m.months.map(x=>x.label.split(' ')[0].replace('.',''));const years=m.months.map(x=>x.label.split(' ').slice(-1)[0]);
 destroyCharts();
 if(window.Chart){
