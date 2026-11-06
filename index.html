@@ -354,8 +354,20 @@ async function exportFullPdf(){
    activateResultTab(name);
    await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
    const key=name==='investments'?'investment':name;
-   if(charts[key])charts[key].resize();
-   chartsPng[key]=charts[key]?.canvas?.toDataURL('image/png',1)||'';
+   const source=charts[key];
+   if(source){
+    const exportCanvas=document.createElement('canvas');
+    exportCanvas.width=key==='investment'?1500:2400;
+    exportCanvas.height=key==='investment'?1500:1050;
+    const exportChart=new Chart(exportCanvas,{
+     type:source.config.type,
+     data:JSON.parse(JSON.stringify(source.config.data)),
+     options:{...source.config.options,responsive:false,maintainAspectRatio:false,animation:false,devicePixelRatio:1}
+    });
+    exportChart.update('none');
+    chartsPng[key]=exportCanvas.toDataURL('image/png');
+    exportChart.destroy();
+   }else chartsPng[key]='';
   }
   activateResultTab(originalTab);
   const colorSet=['#c91f2b','#e77b82','#f1b5b9','#a9a9a9','#d7b0a5','#9c6b6f','#e5d5d5','#777'];
@@ -389,18 +401,19 @@ async function exportFullPdf(){
   const header=(title,subtitle)=>'<header><div class="brand">ПОЖЗНАКЪ <span>ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</span></div><h1>'+title+'</h1><p>'+subtitle+'</p><div class="metrics">'+metricHtml+'</div></header>';
   const monthTable=(rows,heads)=>'<table><thead><tr>'+heads.map(x=>'<th>'+safe(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(x=>'<td>'+safe(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
   const monthName=x=>x.monthLabel+' '+x.yearLabel;
-  const splitSix=rows=>[rows.slice(0,6),rows.slice(6,12),rows.slice(12,18),rows.slice(18,24)];
+  const yearGroups=m.months.reduce((groups,item)=>{const year=item.yearLabel||item.label.split(' ').slice(-1)[0];let group=groups[groups.length-1];if(!group||group.year!==year){group={year,months:[]};groups.push(group)}group.months.push(item);return groups},[]);
+  const chartYears=()=>'<div class="chart-years">'+yearGroups.map(group=>'<div style="flex:'+group.months.length+'">'+safe(group.year)+'</div>').join('')+'</div>';
   const miniGrid=blocks=>'<div class="mini-grid">'+blocks.map(rows=>'<div>'+monthTable(rows,['Месяц',...rows[0].slice(1).map((_,i)=>['Показатель 1','Показатель 2','Показатель 3'][i])])+'</div>').join('')+'</div>';
   const investmentDetail='<div class="detail-table"><table><thead><tr><th>Статья инвестиций</th><th>Сумма</th></tr></thead><tbody>'+investmentRows.map((row,i)=>'<tr><td><i style="background:'+colorSet[['Паушальный взнос','Обеспечительный платёж','Ремонт помещения','Офисная мебель','Офисное оборудование','Рабочий инструмент и оборудование','Другие стартовые затраты'].indexOf(row[2])%colorSet.length]+'"></i>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td></tr>').join('')+'<tr class="total"><td>Всего инвестиций</td><td>'+money(m.investment)+'</td></tr></tbody></table></div>';
   const profitData=m.months.map(x=>[monthName(x),money(x.profit),money(x.cumulative)]);
   const salesData=m.months.map(x=>[monthName(x),...dynamic.services.map(service=>money(x.revenue*(Number(service.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))),money(x.revenue)]);
   const financeData=m.months.map(x=>[monthName(x),money(x.revenue),money(x.expenses),money(x.profit)]);
-  const monthsGrid=(rows,headers)=>'<div class="months-grid">'+splitSix(rows).map((part,i)=>'<div class="month-block">'+monthTable(part,headers)+'</div>').join('')+'</div>';
+  const monthsGrid=(rows,headers)=>'<div class="months-grid">'+yearGroups.map((group,i)=>'<div class="month-block"><h3>'+safe(group.year)+'</h3>'+monthTable(rows.slice(i*12,(i+1)*12),headers)+'</div>').join('')+'</div>';
   const pages=[
    '<article class="page">'+header('1. Инвестиции на запуск','Структура первоначальных вложений и подробная расшифровка статей')+'<div class="investment-content"><div class="donut"><img src="'+chartsPng.investment+'"></div>'+investmentDetail+'</div></article>',
-   '<article class="page">'+header('2. Прибыль и окупаемость по месяцам','Прибыль за месяц и накопленный денежный поток')+'<div class="chart"><img src="'+chartsPng.profit+'"></div>'+monthsGrid(profitData,['Месяц','Прибыль','Накопленный поток'])+'</article>',
-   '<article class="page">'+header('3. Продажи','Распределение выручки по направлениям и динамика за 24 месяца')+'<div class="chart"><img src="'+chartsPng.sales+'"></div>'+monthsGrid(salesData,['Месяц',...dynamic.services.map(x=>x.name||'Направление'),'Всего'])+'</article>',
-   '<article class="page">'+header('4. Выручка, расходы и прибыль','Финансовая динамика и подробный состав ежемесячных расходов')+'<div class="chart short"><img src="'+chartsPng.finance+'"></div><div class="finance-bottom"><div>'+monthsGrid(financeData,['Месяц','Выручка','Расходы','Прибыль'])+'</div><div class="expense-table"><h2>Статьи ежемесячных расходов</h2><table><thead><tr><th>Статья</th><th>Сумма / условие</th><th>Период</th></tr></thead><tbody>'+monthlyRows.map(row=>'<tr><td>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td><td>'+safe(row[2])+'</td></tr>').join('')+'</tbody></table></div></div></article>'
+   '<article class="page">'+header('2. Прибыль и окупаемость по месяцам','Прибыль за месяц и накопленный денежный поток')+'<div class="chart"><img src="'+chartsPng.profit+'"></div>'+chartYears()+monthsGrid(profitData,['Месяц','Прибыль','Накопленный поток'])+'</article>',
+   '<article class="page">'+header('3. Продажи','Распределение выручки по направлениям и динамика за 24 месяца')+'<div class="chart"><img src="'+chartsPng.sales+'"></div>'+chartYears()+monthsGrid(salesData,['Месяц',...dynamic.services.map(x=>x.name||'Направление'),'Всего'])+'</article>',
+   '<article class="page">'+header('4. Выручка, расходы и прибыль','Финансовая динамика и подробный состав ежемесячных расходов')+'<div class="chart short"><img src="'+chartsPng.finance+'"></div>'+chartYears()+'<div class="finance-bottom"><div>'+monthsGrid(financeData,['Месяц','Выручка','Расходы','Прибыль'])+'</div><div class="expense-table"><h2>Статьи ежемесячных расходов</h2><table><thead><tr><th>Статья</th><th>Сумма / условие</th><th>Период</th></tr></thead><tbody>'+monthlyRows.map(row=>'<tr><td>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td><td>'+safe(row[2])+'</td></tr>').join('')+'</tbody></table></div></div></article>'
   ];
   const host=document.createElement('div');host.id='pdfRenderHost';host.innerHTML=pages.join('');
   host.style.cssText='position:fixed;left:-12000px;top:0;width:1123px;z-index:-1';
@@ -413,12 +426,15 @@ async function exportFullPdf(){
   #pdfRenderHost .metric{border:1px solid #e5dddd;border-radius:7px;padding:8px 9px}#pdfRenderHost .metric span{display:block;font-size:10px;color:#666;margin-bottom:4px}#pdfRenderHost .metric b{font-size:13px}
   #pdfRenderHost .investment-content{display:grid;grid-template-columns:39% 61%;gap:18px;height:600px;align-items:start}
   #pdfRenderHost .donut{height:560px;display:flex;align-items:center;justify-content:center}#pdfRenderHost .donut img{width:100%;height:100%;object-fit:contain}
-  #pdfRenderHost table{border-collapse:collapse;width:100%;font-size:11px}#pdfRenderHost th{text-align:left;background:#faeeee;color:#76343a;font-size:10px;padding:6px}#pdfRenderHost td{padding:5px 6px;border-bottom:1px solid #eee;vertical-align:middle}#pdfRenderHost td:last-child{text-align:right;white-space:nowrap}
+  #pdfRenderHost table{border-collapse:collapse;width:100%;font-size:11px}#pdfRenderHost th{text-align:center;background:#faeeee;color:#76343a;font-size:10px;padding:6px}#pdfRenderHost td{padding:5px 6px;border-bottom:1px solid #eee;vertical-align:middle}#pdfRenderHost td:not(:first-child){text-align:center;white-space:nowrap}
   #pdfRenderHost .detail-table{max-height:585px;overflow:hidden}#pdfRenderHost .detail-table i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px}
   #pdfRenderHost .total td{font-weight:800;background:#fff5f5}
-  #pdfRenderHost .chart{height:285px;margin:0 0 8px;display:flex;justify-content:center;align-items:center}#pdfRenderHost .chart img{width:100%;height:100%;object-fit:contain}
-  #pdfRenderHost .chart.short{height:210px;margin-bottom:5px}
-  #pdfRenderHost .months-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(2,auto);gap:7px 14px}
+  #pdfRenderHost .chart{height:330px;margin:0 0 4px;display:flex;justify-content:center;align-items:center}#pdfRenderHost .chart img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+  #pdfRenderHost .chart.short{height:230px;margin-bottom:3px}
+  #pdfRenderHost .chart-years{display:flex;gap:0;margin:0 38px 8px;min-height:22px}
+  #pdfRenderHost .chart-years div{text-align:center;border-top:2px solid #c91f2b;padding-top:4px;font-size:11px;font-weight:800;color:#76343a}
+  #pdfRenderHost .months-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px}
+  #pdfRenderHost .month-block h3{font-size:11px;text-align:center;color:#76343a;margin:0 0 4px}
   #pdfRenderHost .month-block table{font-size:10px}#pdfRenderHost .month-block th{font-size:9px;padding:4px 5px}#pdfRenderHost .month-block td{padding:4px 5px}
   #pdfRenderHost .finance-bottom{display:grid;grid-template-columns:58% 42%;gap:12px}
   #pdfRenderHost .expense-table h2{font-size:13px;margin:0 0 5px;color:#76343a}#pdfRenderHost .expense-table table{font-size:9px}#pdfRenderHost .expense-table th{font-size:8px;padding:4px}#pdfRenderHost .expense-table td{font-size:8px;padding:3px 4px}
