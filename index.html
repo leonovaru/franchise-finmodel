@@ -428,8 +428,8 @@ async function exportFullPdf(){
   const chartYears=()=>'';
   const miniGrid=blocks=>'<div class="mini-grid">'+blocks.map(rows=>'<div>'+monthTable(rows,['Месяц',...rows[0].slice(1).map((_,i)=>['Показатель 1','Показатель 2','Показатель 3'][i])])+'</div>').join('')+'</div>';
   const investmentDetail='<div class="detail-table"><table><thead><tr><th>Статья инвестиций</th><th>Сумма</th></tr></thead><tbody>'+investmentRows.map((row,i)=>'<tr><td><i style="background:'+colorSet[['Паушальный взнос','Обеспечительный платёж','Ремонт помещения','Офисная мебель','Офисное оборудование','Рабочий инструмент и оборудование','Другие стартовые затраты'].indexOf(row[2])%colorSet.length]+'"></i>'+safe(row[0])+'</td><td>'+safe(typeof row[1]==='number'?money(row[1]):row[1])+'</td></tr>').join('')+'<tr class="total"><td>Всего инвестиций</td><td>'+money(m.investment)+'</td></tr></tbody></table></div>';
-  const profitData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||''),money(x.profit),money(x.cumulative)]);
-  const salesData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||''),...dynamic.services.map(service=>money(x.revenue*(Number(service.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))),money(x.revenue)]);
+  const profitData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||x.label.split(' ').slice(-1)[0]),money(x.profit),money(x.cumulative)]);
+  const salesData=m.months.map(x=>[monthName(x)+' '+(x.yearLabel||x.label.split(' ').slice(-1)[0]),...dynamic.services.map(service=>money(x.revenue*(Number(service.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))),money(x.revenue)]);
   const financeData=m.months.map(x=>[monthName(x),money(x.revenue),money(x.expenses),money(x.profit)]);
   const monthsGrid=(rows,headers,columns=2)=>{const blocks=columns===3?[rows.slice(0,8),rows.slice(8,16),rows.slice(16,24)]:[rows.slice(0,12),rows.slice(12,24)];return '<div class="months-grid cols-'+columns+'">'+blocks.map(block=>'<div class="month-block">'+monthTable(block,headers)+'</div>').join('')+'</div>'};
   const pages=[
