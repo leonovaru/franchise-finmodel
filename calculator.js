@@ -74,7 +74,9 @@
       const profit = revenue - expenses;
       cumulative += profit;
       months.push({
-        label: date.toLocaleDateString('ru-RU', { month: 'short', year: '2-digit' }),
+        label: date.toLocaleDateString('ru-RU', { month: 'short' }),
+        monthLabel: date.toLocaleDateString('ru-RU', { month: 'short' }).replace('.', ''),
+        yearLabel: String(date.getFullYear()),
         revenue, expenses, profit, cumulative, tax,
         payroll: managementPayroll + administrativePayroll + technicalPayroll
       });
