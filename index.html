@@ -308,7 +308,7 @@ if(window.Chart){
 renderYearGroups('profitYears',m.months);renderYearGroups('salesYears',m.months);renderYearGroups('financeYears',m.months);
 $('salesSummary').innerHTML=dynamic.services.map(x=>'<tr><td>'+esc(x.name)+'</td><td>'+rub(m.totalRevenue*(Number(x.share)||0)/Math.max(1,dynamic.services.reduce((sum,z)=>sum+(Number(z.share)||0),0)))+'</td></tr>').join('')+'<tr><td><strong>Всего продаж</strong></td><td>'+rub(m.totalRevenue)+'</td></tr>';
 }
-function exportFullPdf(){
+async function exportFullPdf(){
  const popup=window.open('','_blank');
  if(!popup){toast('Разрешите открытие окна для сохранения PDF');return}
  const originalTab=document.querySelector('.result-tab.active')?.dataset.resultTab||'investments';
@@ -317,7 +317,16 @@ function exportFullPdf(){
  const safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const metric=(label,value)=>'<div class="metric"><span>'+safe(label)+'</span><strong>'+safe(value)+'</strong></div>';
  const table=(headers,rows)=>'<table><thead><tr>'+headers.map(x=>'<th>'+safe(x)+'</th>').join('')+'</tr></thead><tbody>'+rows.map(row=>'<tr>'+row.map(x=>'<td>'+safe(x)+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
- const chartImage=key=>charts[key]?.canvas?.toDataURL('image/png',1)||'';
+ const chartImages={};
+ for(const name of ['investments','profit','sales','finance']){
+  activateResultTab(name);
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  const key=name==='investments'?'investment':name;
+  if(charts[key])charts[key].resize();
+  chartImages[key]=charts[key]?.canvas?.toDataURL('image/png',1)||'';
+ }
+ activateResultTab(originalTab);
+ const chartImage=key=>chartImages[key]||'';
  const yearRange=m.months.length?m.months[0].yearLabel+'–'+m.months[m.months.length-1].yearLabel:'';
  const common='<div class="brand">ПОЖЗНАКЪ <span>ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</span></div><div class="metrics">'+metric('Стартовые инвестиции',money(m.investment))+metric('Плановая выручка / мес.',money(m.target))+metric('Окупаемость',m.payback?m.payback+' мес.':'Более 24 мес.')+metric('Средняя прибыль / мес.',money(m.avg))+metric('Выручка за 24 месяца',money(m.totalRevenue))+metric('Прибыль за 24 месяца',money(m.totalProfit))+'</div>';
  const pages=[];
@@ -344,7 +353,7 @@ function exportFullPdf(){
  @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
  </style>`;
  popup.document.open();popup.document.write('<!doctype html><html lang="ru"><head><meta charset="utf-8"><title>Финансовая модель ПожзнакЪ</title>'+style+'</head><body>'+pages.join('')+'</body></html>');popup.document.close();
- popup.onload=()=>{setTimeout(()=>{popup.focus();popup.print()},500)};
+ setTimeout(()=>{popup.focus();popup.print()},700);
 }
 function activateResultTab(name){document.querySelectorAll('.result-tab').forEach(b=>b.classList.toggle('active',b.dataset.resultTab===name));document.querySelectorAll('.result-tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.resultPanel===name));const chartKey=name==='profit'?'profit':name==='sales'?'sales':name==='finance'?'finance':null;if(chartKey&&charts[chartKey]){charts[chartKey].resize();const yearId=name==='profit'?'profitYears':name==='sales'?'salesYears':'financeYears';alignYearGroups(yearId,chartKey);}}
 function show(){document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('hidden',i!==step));document.querySelectorAll('.step').forEach((el,i)=>{el.classList.toggle('active',i<=step)});document.querySelectorAll('.step-labels span').forEach((el,i)=>el.classList.toggle('current',i===step));$('back').disabled=step===0;$('next').textContent=step===3?'Пересчитать':'Продолжить →';if(step===3)render();window.scrollTo({top:0,behavior:'smooth'})}
