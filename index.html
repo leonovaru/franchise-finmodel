@@ -431,6 +431,12 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="actions"><button class="btn btn-ghost" id="back" disabled>← Назад</button><div class="action-right"><button class="btn btn-link" id="reset">Сбросить</button><button class="btn btn-ghost" id="exportPdf">Скачать PDF</button><button class="btn btn-primary" id="next">Продолжить →</button></div></div>
 </section></div>
 
+<nav class="bottom-sheet-tabs" aria-label="Разделы финансовой модели">
+<button type="button" class="active" data-sheet-tab="inputs">Входящие данные</button>
+<button type="button" data-sheet-tab="investments">Инвестиции</button>
+<button type="button" data-sheet-tab="profit">Прибыль и окупаемость</button>
+<button type="button" data-sheet-tab="sales">Продажи</button>
+</nav>
 </main><div class="toast" id="toast"></div></div>
 <script src="./calculator.js"></script>
 <script>
