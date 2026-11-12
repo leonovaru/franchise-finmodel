@@ -196,6 +196,150 @@ body.pdf-exporting .result-tab-panel,body.pdf-exporting .sidebar-results{visibil
 .seasonality-plan-grid .seasonality-column .dynamic-grid td:nth-child(2) .suffix{max-width:130px}
 @media(max-width:950px){.sidebar-results{display:grid;grid-template-columns:1fr 1fr}.sidebar-results .btn{grid-column:1/-1}.seasonality-plan-grid{grid-template-columns:1fr 1fr;gap:16px}}
 @media(max-width:560px){.sidebar-results{grid-template-columns:1fr}.sidebar-results .btn{grid-column:auto}.seasonality-plan-grid{grid-template-columns:1fr}.screen[data-screen="1"] .table td,.screen[data-screen="2"] .table td{font-size:12px}}
+
+
+/* Компактный финансовый экран: цифры и 24-месячная таблица в одном окне */
+.compact-result .topbar{height:64px;min-height:64px}
+.compact-result .brand-logo{width:150px;height:52px}
+.compact-result .brand-caption{font-size:18px}
+.compact-result .layout{max-width:1680px;padding:10px 18px 12px}
+.compact-result .main-grid{display:block}
+.compact-result .steps-sidebar{display:none}
+.compact-result .panel{padding:14px 16px;border-radius:12px;box-shadow:none}
+.compact-result .panel-head{align-items:center;margin-bottom:10px;gap:12px}
+.compact-result .panel h2{font-size:21px;margin:0 0 2px}
+.compact-result .sub{font-size:11px;line-height:1.35}
+.compact-result .section-tag{font-size:10px;padding:5px 8px}
+.compact-result .compact-metrics{grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:0 0 10px}
+.compact-result .result-tile{padding:9px 10px;border-radius:8px;min-width:0}
+.compact-result .result-tile span{font-size:10px;line-height:1.25;min-height:25px;margin-bottom:3px}
+.compact-result .result-tile strong{font-size:clamp(15px,1.35vw,21px);letter-spacing:-.5px;white-space:nowrap}
+.year-table-block{margin:0 0 9px}
+.year-table-title{font-size:11px;font-weight:800;color:#8d252d;margin:0 0 4px}
+.numbers-table-wrap{width:100%;overflow-x:auto}
+.numbers-table{width:100%;min-width:980px;table-layout:fixed;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.numbers-table th,.numbers-table td{border:1px solid #ece5e5;padding:6px 5px;text-align:right;font-size:11px;white-space:nowrap}
+.numbers-table thead th,.numbers-table .month-row th{background:#fbf0f0;color:#71363a;font-size:10px;font-weight:800;text-align:center}
+.numbers-table th:first-child,.numbers-table td:first-child{width:155px;text-align:left;font-weight:700;background:#faf8f8}
+.numbers-table tr:nth-child(2n) td{background:#fffafa}
+.numbers-table tr:nth-child(4) td{font-weight:800;color:#9f1822}
+.numbers-table tr:last-child td{font-weight:700}
+.compact-result .actions{margin-top:7px;padding-top:7px;align-items:center}
+.compact-result .actions .btn{padding:9px 14px;font-size:11px}
+.action-right{display:flex;align-items:center;gap:8px}
+.legacy-analytics{position:fixed;left:-12000px;top:0;width:1200px;visibility:hidden;pointer-events:none;z-index:-1}
+.legacy-analytics .result-tab-panel{display:block!important;position:relative;width:1200px}
+.legacy-analytics .chartbox{height:320px;width:1100px}
+@media(max-height:760px) and (min-width:951px){
+ .compact-result .topbar{height:56px;min-height:56px}
+ .compact-result .layout{padding-top:6px;padding-bottom:6px}
+ .compact-result .panel{padding:10px 14px}
+ .compact-result .panel-head{margin-bottom:6px}
+ .compact-result .compact-metrics{margin-bottom:6px}
+ .compact-result .result-tile{padding:6px 8px}
+ .numbers-table th,.numbers-table td{padding:4px 4px}
+ .year-table-block{margin-bottom:5px}
+ .compact-result .actions{margin-top:4px;padding-top:4px}
+}
+@media(max-width:950px){
+ .compact-result .layout{padding:12px 14px}
+ .compact-result .compact-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .compact-result .result-tile strong{font-size:18px}
+}
+@media(max-width:560px){
+ .compact-result .topbar{height:64px;min-height:64px;padding:0 12px}
+ .compact-result .brand-logo{width:100px;height:46px}
+ .compact-result .brand-caption{font-size:11px;white-space:normal;width:48%;left:auto;right:10px;transform:none}
+ .compact-result .layout{padding:8px}
+ .compact-result .panel{padding:12px 10px}
+ .compact-result .panel-head{align-items:flex-start}
+ .compact-result .compact-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .compact-result .result-tile span{min-height:0}
+ .compact-result .actions{gap:6px}
+ .compact-result .actions .btn{padding:8px 9px;font-size:10px}
+ .action-right{gap:4px}
+}
+
+/* Новый табличный интерфейс: все исходные параметры собраны на одном листе */
+.steps-sidebar{display:none!important}
+.main-grid{display:block!important;max-width:100%;gap:0}
+.layout{max-width:1680px;padding:18px 24px 96px}
+.hero{display:none}
+.panel{padding:20px 24px;border-radius:12px;box-shadow:0 4px 18px rgba(30,20,20,.04)}
+.panel-head{margin-bottom:12px}
+.panel h2{font-size:21px;margin:0}
+.panel-head .sub{font-size:12px;line-height:1.4}
+.screen[data-screen="0"],.screen[data-screen="1"],.screen[data-screen="2"]{display:block!important;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.screen[data-screen="0"] .panel-head,.screen[data-screen="1"] .panel-head,.screen[data-screen="2"] .panel-head{display:flex;align-items:center;margin-bottom:8px}
+.screen[data-screen="0"] .section-tag,.screen[data-screen="1"] .section-tag,.screen[data-screen="2"] .section-tag{display:none}
+.fields{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px 18px}
+.field{gap:3px;min-width:0}
+.field label{font-size:12px;line-height:1.25;color:#484848}
+.hint{font-size:10px;line-height:1.3}
+.control{height:35px!important;min-height:35px;border-radius:6px;padding:0 9px;font-size:13px!important}
+.suffix em{top:10px;font-size:10px}
+.group-title{font-size:10px;padding-top:8px;margin-top:3px;color:#a51e27;border-color:#eee}
+.dynamic-grid{min-width:0!important}
+.dynamic-grid td:first-child{min-width:0!important}
+.dynamic-grid td:nth-child(2),.dynamic-grid td:nth-child(3){width:auto!important}
+.dynamic-grid input{height:30px!important;min-width:0!important;font-size:11px!important;padding:0 6px}
+.dynamic-grid td{padding:4px 5px!important}
+.dynamic-grid th{font-size:9px;padding:0 5px 5px}
+.table-wrap{overflow-x:auto}
+.add-row{margin-top:5px;padding:7px 10px;font-size:10px}
+.seasonality-plan-grid{grid-template-columns:minmax(220px,.7fr) minmax(0,1.3fr);gap:20px}
+.seasonality-plan-grid .plan-column{gap:7px}
+.seasonality-plan-grid .seasonality-column .dynamic-grid{min-width:0}
+.screen[data-screen="3"]{display:none}
+body[data-view="inputs"] .screen[data-screen="3"]{display:none!important}
+body[data-view="investments"] .screen[data-screen="3"],
+body[data-view="profit"] .screen[data-screen="3"],
+body[data-view="sales"] .screen[data-screen="3"]{display:block!important}
+body[data-view="investments"] .screen[data-screen="3"] .year-table-block,
+body[data-view="profit"] .screen[data-screen="3"] .year-table-block,
+body[data-view="sales"] .screen[data-screen="3"] .year-table-block{display:none}
+body[data-view="investments"] .screen[data-screen="3"] .result-tab-panel:not([data-result-panel="investments"]),
+body[data-view="profit"] .screen[data-screen="3"] .result-tab-panel:not([data-result-panel="profit"]),
+body[data-view="sales"] .screen[data-screen="3"] .result-tab-panel:not([data-result-panel="sales"]){display:none!important}
+.legacy-analytics{position:static!important;left:auto!important;top:auto!important;width:100%!important;visibility:visible!important;pointer-events:auto!important;z-index:auto!important;margin-top:12px}
+.legacy-analytics .result-tab-panel{width:100%!important}
+.legacy-analytics .chartbox{width:100%;height:340px}
+body[data-view="sales"] .legacy-analytics .result-tab-panel[data-result-panel="finance"]{display:block!important;margin-top:20px}
+body[data-view="sales"] .legacy-analytics .result-tab-panel[data-result-panel="finance"] .result-section-title{display:block}
+body[data-view="sales"] .legacy-analytics .result-tab-panel[data-result-panel="finance"]{border-top:1px solid var(--line);padding-top:12px}
+body[data-view="inputs"] .result-grid,body[data-view="inputs"] .year-table-block{display:none}
+body[data-view="inputs"] .actions #back,body[data-view="inputs"] .actions #next{display:none}
+body[data-view="inputs"] .actions{justify-content:flex-end;margin-top:10px;padding-top:10px}
+.bottom-sheet-tabs{position:fixed;z-index:20;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:8px 16px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid #e5dddd;box-shadow:0 -5px 20px rgba(30,20,20,.06)}
+.bottom-sheet-tabs button{border:1px solid transparent;background:#f7f3f3;color:#696060;border-radius:7px 7px 0 0;padding:10px 18px;font-size:12px;font-weight:800;white-space:nowrap}
+.bottom-sheet-tabs button.active{background:#c91f2b;color:#fff;border-color:#c91f2b}
+body:not([data-view="inputs"]) .screen[data-screen="0"],
+body:not([data-view="inputs"]) .screen[data-screen="1"],
+body:not([data-view="inputs"]) .screen[data-screen="2"]{display:none!important}
+body:not([data-view="inputs"]) .actions #back,body:not([data-view="inputs"]) .actions #next{display:none}
+body:not([data-view="inputs"]) .actions{justify-content:flex-end}
+@media(max-width:900px){
+ .layout{padding:12px 12px 100px}
+ .panel{padding:14px}
+ .fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px}
+ .seasonality-plan-grid{grid-template-columns:1fr;gap:12px}
+ .bottom-sheet-tabs{justify-content:flex-start;overflow-x:auto}
+ .bottom-sheet-tabs button{padding:10px 13px;font-size:11px}
+}
+@media(max-width:560px){
+ .fields{grid-template-columns:1fr}
+ .screen[data-screen="0"],.screen[data-screen="1"],.screen[data-screen="2"]{padding-bottom:10px;margin-bottom:10px}
+ .screen[data-screen="0"] .panel-head,.screen[data-screen="1"] .panel-head,.screen[data-screen="2"] .panel-head{align-items:flex-start}
+ .panel{padding:12px}
+ .panel h2{font-size:18px}
+ .dynamic-grid{min-width:460px!important}
+ .seasonality-column .dynamic-grid{min-width:0!important}
+ .bottom-sheet-tabs{gap:3px;padding:6px 8px calc(6px + env(safe-area-inset-bottom))}
+ .bottom-sheet-tabs button{padding:9px 11px;font-size:10px}
+ .result-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .legacy-analytics .chartbox{height:280px}
+}
+
 </style></head>
 <body><div class="shell">
 <header class="topbar"><div class="brand"><img class="brand-logo" src="https://znak112.ru/wp-content/uploads/2026/01/logo9.png" alt="Логотип ПожзнакЪ"><div class="brand-caption">ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</div></div></header>
@@ -207,7 +351,7 @@ body.pdf-exporting .result-tab-panel,body.pdf-exporting .sidebar-results{visibil
 <button type="button" class="result-tab" data-result-tab="profit">Прибыль и окупаемость</button>
 <button type="button" class="result-tab" data-result-tab="sales">Продажи</button>
 <button type="button" class="result-tab" data-result-tab="finance">Выручка, расходы и прибыль</button>
-<button type="button" class="btn btn-primary" id="exportPdf">Скачать PDF</button>
+
 </div>
 </div><section class="panel">
 <section class="screen" data-screen="0"><div class="panel-head"><div><h2>Общие данные</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
@@ -256,35 +400,43 @@ body.pdf-exporting .result-tab-panel,body.pdf-exporting .sidebar-results{visibil
 <div class="field"><label for="marketing">Маркетинг в месяц</label><div class="suffix"><input class="control" id="marketing" type="number" value="40000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="contractors">Подрядчики и прочие переменные расходы</label><div class="suffix"><input class="control" id="contractors" type="number" value="0" min="0"><em>₽</em></div></div>
 </div></section>
-<section class="screen hidden" data-screen="3"><div class="panel-head"><div><h2>Финансовый результат</h2><p class="sub">Финансовые показатели филиала на горизонте 24 месяцев.</p></div><span class="section-tag">ШАГ 4 ИЗ 4</span></div>
-<div class="result-grid"><div class="result-tile"><span>Стартовые инвестиции</span><strong id="outInvest">—</strong></div><div class="result-tile"><span>Плановая выручка / мес.</span><strong id="outRevenue">—</strong></div><div class="result-tile"><span>Окупаемость</span><strong id="outPayback">—</strong></div></div>
-<div class="result-grid"><div class="result-tile"><span>Средняя чистая прибыль / мес.</span><strong id="outProfit">—</strong></div><div class="result-tile"><span>Выручка за 24 месяца</span><strong id="outTotal">—</strong></div><div class="result-tile"><span>Прибыль за 24 месяца</span><strong id="outNet">—</strong></div></div>
-
+<section class="screen hidden" data-screen="3">
+<div class="panel-head compact-head"><div><h2>Финансовый результат</h2><p class="sub">Все ключевые показатели и помесячный прогноз за 24 месяца. Суммы в рублях.</p></div><span class="section-tag">24 МЕСЯЦА</span></div>
+<div class="result-grid compact-metrics">
+<div class="result-tile"><span>Стартовые инвестиции</span><strong id="outInvest">—</strong></div>
+<div class="result-tile"><span>Плановая выручка / мес.</span><strong id="outRevenue">—</strong></div>
+<div class="result-tile"><span>Окупаемость</span><strong id="outPayback">—</strong></div>
+<div class="result-tile"><span>Средняя прибыль / мес.</span><strong id="outProfit">—</strong></div>
+<div class="result-tile"><span>Выручка за 24 мес.</span><strong id="outTotal">—</strong></div>
+<div class="result-tile"><span>Прибыль за 24 мес.</span><strong id="outNet">—</strong></div>
+</div>
+<div class="year-table-block"><div class="year-table-title">Первый год</div><div class="numbers-table-wrap"><table class="numbers-table"><tbody id="yearOneTable"></tbody></table></div></div>
+<div class="year-table-block"><div class="year-table-title">Второй год</div><div class="numbers-table-wrap"><table class="numbers-table"><tbody id="yearTwoTable"></tbody></table></div></div>
+<div class="legacy-analytics" aria-hidden="true">
 <section class="result-tab-panel active" data-result-panel="investments">
 <div class="result-section-title">Структура первоначальных инвестиций</div>
 <div class="investment-layout"><div class="chartbox investment-chart"><canvas id="investmentChart"></canvas></div><div class="investment-breakdown"><table class="summary-table"><tbody id="investmentBreakdown"></tbody></table></div></div>
 </section>
 <section class="result-tab-panel" data-result-panel="profit">
-<div class="result-section-title">Прибыль и накопленный денежный поток</div>
-<div class="chartbox"><canvas id="profitChart"></canvas></div>
-<div class="year-groups" id="profitYears"></div>
+<div class="result-section-title">Прибыль и накопленный денежный поток</div><div class="chartbox"><canvas id="profitChart"></canvas></div><div class="year-groups" id="profitYears"></div>
 </section>
 <section class="result-tab-panel" data-result-panel="sales">
-<div class="result-section-title">Продажи по месяцам и направлениям</div>
-<div class="chartbox"><canvas id="salesChart"></canvas></div>
-<div class="year-groups" id="salesYears"></div>
-<table class="summary-table"><tbody id="salesSummary"></tbody></table>
+<div class="result-section-title">Продажи по месяцам и направлениям</div><div class="chartbox"><canvas id="salesChart"></canvas></div><div class="year-groups" id="salesYears"></div><table class="summary-table"><tbody id="salesSummary"></tbody></table>
 </section>
 <section class="result-tab-panel" data-result-panel="finance">
-<div class="result-section-title">Динамика выручки, расходов и прибыли</div>
-<div class="chartbox"><canvas id="financeChart"></canvas></div>
-<div class="year-groups" id="financeYears"></div>
+<div class="result-section-title">Динамика выручки, расходов и прибыли</div><div class="chartbox"><canvas id="financeChart"></canvas></div><div class="year-groups" id="financeYears"></div>
 </section>
-
+</div>
 </section>
-<div class="actions"><button class="btn btn-ghost" id="back" disabled>← Назад</button><div><button class="btn btn-link" id="reset">Сбросить</button><button class="btn btn-primary" id="next">Продолжить →</button></div></div>
+<div class="actions"><button class="btn btn-ghost" id="back" disabled>← Назад</button><div class="action-right"><button class="btn btn-link" id="reset">Сбросить</button><button class="btn btn-ghost" id="exportPdf">Скачать PDF</button><button class="btn btn-primary" id="next">Продолжить →</button></div></div>
 </section></div>
 
+<nav class="bottom-sheet-tabs" aria-label="Разделы финансовой модели">
+<button type="button" class="active" data-sheet-tab="inputs">Входящие данные</button>
+<button type="button" data-sheet-tab="investments">Инвестиции</button>
+<button type="button" data-sheet-tab="profit">Прибыль и окупаемость</button>
+<button type="button" data-sheet-tab="sales">Продажи</button>
+</nav>
 </main><div class="toast" id="toast"></div></div>
 <script src="./calculator.js"></script>
 <script>
@@ -322,7 +474,8 @@ function monthLabels(months){return months.map(m=>{const d=new Date(m.label);ret
 function renderYearGroups(targetId,months){const groups=[];months.forEach((m,i)=>{const year=m.yearLabel||m.label.split(' ').slice(-1)[0];let g=groups[groups.length-1];if(!g||g.year!==year){g={year,count:0};groups.push(g)}g.count++});$(targetId).innerHTML=groups.map(g=>'<div class="year-group" style="flex:'+g.count+'"><span>'+g.year+'</span></div>').join('')}
 function alignYearGroups(targetId,chartKey){const chart=charts[chartKey],el=$(targetId);if(!chart||!el||!chart.chartArea)return;const canvasWidth=chart.canvas.clientWidth||1;const scale=chart.width/canvasWidth||1;el.style.marginLeft=(chart.chartArea.left/scale)+'px';el.style.marginRight=((chart.width-chart.chartArea.right)/scale)+'px'}
 function render(){const m=model();$('outInvest').textContent=short(m.investment);$('outRevenue').textContent=short(m.target);$('outPayback').textContent=m.payback?m.payback+' мес.':'Более 24 мес.';$('outProfit').textContent=short(m.avg);$('outTotal').textContent=short(m.totalRevenue);$('outNet').textContent=short(m.totalProfit);
-const breakdown=investmentBreakdown();const breakdownColors=['#c91f2b','#e77b82','#f1b5b9','#a9a9a9','#d7b0a5','#9c6b6f','#e5d5d5','#777'];$('investmentBreakdown').innerHTML=breakdown.map((x,i)=>'<tr><td><span class="investment-dot" style="background:'+breakdownColors[i%breakdownColors.length]+'"></span>'+x[0]+'</td><td>'+rub(x[1])+'</td></tr>').join('')+'<tr><td><strong>Всего инвестиций</strong></td><td>'+rub(m.investment)+'</td></tr>';
+const numberText=n=>new Intl.NumberFormat('ru-RU',{maximumFractionDigits:0}).format(Math.round(n));const makeYearTable=months=>{const rows=[['Выручка',months.map(x=>x.revenue)],['Расходы',months.map(x=>x.expenses)],['Чистая прибыль',months.map(x=>x.profit)],['Накопленный поток',months.map(x=>x.cumulative)]];return '<tr class="month-row"><th>Показатель / месяц</th>'+months.map(x=>'<th>'+esc(x.monthLabel)+'</th>').join('')+'</tr>'+rows.map(row=>'<tr><td>'+row[0]+'</td>'+row[1].map(v=>'<td>'+numberText(v)+'</td>').join('')+'</tr>').join('')};$('yearOneTable').innerHTML=makeYearTable(m.months.slice(0,12));$('yearTwoTable').innerHTML=makeYearTable(m.months.slice(12,24));
+ const breakdown=investmentBreakdown();const breakdownColors=['#c91f2b','#e77b82','#f1b5b9','#a9a9a9','#d7b0a5','#9c6b6f','#e5d5d5','#777'];$('investmentBreakdown').innerHTML=breakdown.map((x,i)=>'<tr><td><span class="investment-dot" style="background:'+breakdownColors[i%breakdownColors.length]+'"></span>'+x[0]+'</td><td>'+rub(x[1])+'</td></tr>').join('')+'<tr><td><strong>Всего инвестиций</strong></td><td>'+rub(m.investment)+'</td></tr>';
 const labels=m.months.map(x=>x.label.split(' ')[0].replace('.',''));const years=m.months.map(x=>x.label.split(' ').slice(-1)[0]);
 destroyCharts();
 if(window.Chart){
@@ -474,7 +627,22 @@ async function exportFullPdf(){
  finally{document.body.classList.remove('pdf-exporting');button.disabled=false;button.textContent='Скачать PDF'}
 }
 function activateResultTab(name){document.querySelectorAll('.result-tab').forEach(b=>b.classList.toggle('active',b.dataset.resultTab===name));document.querySelectorAll('.result-tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.resultPanel===name));const chartKey=name==='profit'?'profit':name==='sales'?'sales':name==='finance'?'finance':null;if(chartKey&&charts[chartKey]){charts[chartKey].resize();const yearId=name==='profit'?'profitYears':name==='sales'?'salesYears':'financeYears';alignYearGroups(yearId,chartKey);}}
-function show(){document.querySelectorAll('.screen').forEach((el,i)=>el.classList.toggle('hidden',i!==step));const sidebarResults=$('sidebarResults');if(sidebarResults)sidebarResults.classList.toggle('hidden',step!==3);document.querySelectorAll('.step-labels span').forEach((el,i)=>el.classList.toggle('current',i===step));$('back').disabled=step===0;$('next').textContent=step===3?'Пересчитать':'Продолжить →';if(step===3)render();window.scrollTo({top:0,behavior:'smooth'})}
+let activeView='inputs';
+function setSheetView(name){
+ activeView=name;
+ document.body.dataset.view=name;
+ document.querySelectorAll('[data-sheet-tab]').forEach(b=>b.classList.toggle('active',b.dataset.sheetTab===name));
+ document.body.classList.toggle('compact-result',name!=='inputs');
+ if(name==='inputs'){document.querySelectorAll('.screen[data-screen="0"],.screen[data-screen="1"],.screen[data-screen="2"]').forEach(el=>el.classList.remove('hidden'));document.querySelector('.screen[data-screen="3"]').classList.add('hidden')}
+ else{
+  document.querySelectorAll('.screen[data-screen="0"],.screen[data-screen="1"],.screen[data-screen="2"]').forEach(el=>el.classList.add('hidden'));
+  document.querySelector('.screen[data-screen="3"]').classList.remove('hidden');
+  const resultName=name==='investments'?'investments':name==='profit'?'profit':'sales';
+  activateResultTab(resultName);render();
+ }
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function show(){setSheetView(activeView)}
 function save(){const data={};ids.forEach(id=>data[id]=$(id).value);data.dynamic=dynamic;data.seasonalityValues=seasonalityValues;localStorage.setItem('franchise-finmodel-draft',JSON.stringify(data));}
 function load(){try{const data=JSON.parse(localStorage.getItem('franchise-finmodel-draft')||'{}');ids.forEach(id=>{if(data[id]!==undefined)$(id).value=data[id]});if(data.dynamic){Object.keys(defaultDynamic).forEach(k=>{if(Array.isArray(data.dynamic[k]))dynamic[k]=data.dynamic[k]})}if(Array.isArray(data.seasonalityValues)&&data.seasonalityValues.length===12)seasonalityValues=data.seasonalityValues.map(v=>Math.max(0,Number(v)||0))}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -489,5 +657,6 @@ document.addEventListener('input',e=>{const t=e.target;if(t.dataset.seasonMonth!
 document.addEventListener('click',e=>{const resultTab=e.target.closest('[data-result-tab]');if(resultTab){activateResultTab(resultTab.dataset.resultTab);return;}const add=e.target.closest('[data-add]');if(add){const key=add.dataset.add;if(key==='services')dynamic.services.push({name:'Новая услуга',share:0});else if(key==='startupItems'||key==='monthlyItems')dynamic[key].push({name:'Новая статья',amount:0});else dynamic[key].push({name:'Новая позиция',qty:1,price:0});renderDynamic();save();return;}const del=e.target.closest('[data-remove]');if(del){dynamic[del.dataset.remove].splice(Number(del.dataset.index),1);renderDynamic();save();if(step===3)render();}});
 
 function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
-ids.forEach(id=>$(id).addEventListener('input',()=>{save();$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'))}));$('exportPdf').onclick=exportFullPdf;$('next').onclick=()=>{if(step<3){step++;show()}else{render();toast('Расчёт обновлён')}};$('back').onclick=()=>{if(step>0){step--;show()}};$('reset').onclick=()=>{if(confirm('Сбросить все введённые данные?')){ids.forEach(id=>$(id).value=defaults[id]);dynamic=JSON.parse(JSON.stringify(defaultDynamic));seasonalityValues=[...defaultSeasonality];localStorage.removeItem('franchise-finmodel-draft');renderDynamic();step=0;show();render();toast('Данные сброшены')}};load();renderDynamic();$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'));show();
+document.addEventListener('click',e=>{const tab=e.target.closest('[data-sheet-tab]');if(tab)setSheetView(tab.dataset.sheetTab);});
+ids.forEach(id=>$(id).addEventListener('input',()=>{save();$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'))}));$('exportPdf').onclick=exportFullPdf;$('next').onclick=()=>{render();toast('Расчёт обновлён')};$('back').onclick=()=>{};$('reset').onclick=()=>{if(confirm('Сбросить все введённые данные?')){ids.forEach(id=>$(id).value=defaults[id]);dynamic=JSON.parse(JSON.stringify(defaultDynamic));seasonalityValues=[...defaultSeasonality];localStorage.removeItem('franchise-finmodel-draft');renderDynamic();step=0;activeView='inputs';show();render();toast('Данные сброшены')}};load();renderDynamic();$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'));show();
 </script></body></html>
