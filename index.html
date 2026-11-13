@@ -371,6 +371,64 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 .input-column .hint{font-size:11px;line-height:1.35}
 @media(max-width:1150px){.input-columns{grid-template-columns:repeat(2,minmax(0,1fr))}.input-column:last-child{grid-column:1/-1}}
 @media(max-width:760px){.input-columns{grid-template-columns:1fr}.input-column:last-child{grid-column:auto}.input-column .screen{padding:14px!important}}
+ 
+/* Табличная компоновка по исходной книге «ПожзнакЪ» */
+.layout{max-width:1800px;padding:10px 18px 78px}
+.layout>.panel{padding:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+.input-columns{grid-template-columns:minmax(260px,.92fr) minmax(430px,1.28fr) minmax(270px,.92fr)!important;gap:10px!important;align-items:stretch}
+.input-column{gap:0!important}
+.input-column .screen{display:block!important;margin:0!important;padding:0!important;border:1px solid #777!important;border-radius:0!important;background:#fff!important;min-width:0}
+.input-column .panel-head{display:flex!important;align-items:center!important;justify-content:center!important;min-height:30px;margin:0!important;padding:5px 8px!important;background:#d8d8d8!important;border-bottom:1px solid #777!important}
+.input-column .panel-head h2{font-size:13px!important;line-height:1.2!important;font-weight:800!important;text-align:center!important;letter-spacing:.1px!important;color:#222!important}
+.input-column .panel-head .sub,.input-column .section-tag{display:none!important}
+.input-column .fields{display:block!important;padding:4px 7px!important}
+.input-column .fields>.group-title,.input-column .group-title{display:block!important;grid-column:auto!important;margin:5px 0 0!important;padding:4px 5px 3px!important;border:0!important;border-bottom:1px solid #777!important;border-radius:0!important;background:#f1f1f1!important;color:#222!important;font-size:11.5px!important;line-height:1.2!important;font-weight:800!important;letter-spacing:0!important;text-transform:none!important}
+.input-column .field{display:grid!important;grid-template-columns:minmax(0,1fr) 112px!important;align-items:center!important;gap:5px!important;min-height:27px!important;margin:0!important;padding:2px 4px!important;border-bottom:1px solid #c9c9c9!important}
+.input-column .field.full{display:block!important;padding:3px 0!important;border:0!important}
+.input-column .field label{display:block!important;margin:0!important;color:#222!important;font-size:11.5px!important;line-height:1.18!important;font-weight:400!important}
+.input-column .field .hint,.input-column .field>.hint{display:none!important}
+.input-column .control{width:100%!important;height:25px!important;min-height:25px!important;padding:2px 5px!important;border:1px solid #a31519!important;border-radius:0!important;background:#dd1718!important;color:#fff!important;font-size:11.5px!important;font-weight:500!important;box-shadow:none!important}
+.input-column .control:focus,.input-column .dynamic-grid input:focus{outline:2px solid #333!important;outline-offset:0!important}
+.input-column .suffix{width:100%!important;min-width:0!important}
+.input-column .suffix em{top:6px!important;right:5px!important;color:#fff!important;font-size:9px!important;font-style:normal!important}
+.input-column .plan-column{display:block!important}
+.input-column #serviceRows{margin:0!important}
+.input-column .dynamic-table{width:100%!important;min-width:0!important}
+.input-column .table-wrap{width:100%!important;overflow:visible!important}
+.input-column .dynamic-grid{width:100%!important;min-width:0!important;table-layout:fixed!important;border-collapse:collapse!important;border-spacing:0!important}
+.input-column .dynamic-grid th,.input-column .dynamic-grid td{height:auto!important;padding:3px 4px!important;border:1px solid #999!important;color:#222!important;font-size:10.8px!important;line-height:1.15!important;vertical-align:middle!important}
+.input-column .dynamic-grid th{background:#eee!important;font-weight:800!important;text-align:center!important;white-space:normal!important}
+.input-column .dynamic-grid td:first-child{width:auto!important;min-width:0!important;overflow-wrap:anywhere!important}
+.input-column .dynamic-grid td:nth-child(2){width:55px!important}
+.input-column .dynamic-grid td:nth-child(3){width:82px!important}
+.input-column .dynamic-grid td:nth-child(4){width:78px!important;text-align:right!important;white-space:nowrap!important}
+.input-column .dynamic-grid .item-name{font-size:10.8px!important;line-height:1.15!important;font-weight:400!important}
+.input-column .dynamic-grid input{display:block!important;width:100%!important;min-width:0!important;height:24px!important;padding:2px 4px!important;border:1px solid #a31519!important;border-radius:0!important;background:#dd1718!important;color:#fff!important;font-size:10.8px!important;text-align:center!important;box-shadow:none!important}
+.input-column .dynamic-grid td.num{font-size:10.8px!important;text-align:right!important;white-space:nowrap!important}
+.input-column .table-total{padding:4px 5px!important;border:1px solid #999!important;border-top:0!important;background:#f2f2f2!important;color:#222!important;font-size:10.5px!important;text-align:right!important}
+.input-column .table-total strong{color:#222!important;font-size:11.5px!important}
+.input-column .hint{font-size:10px!important;line-height:1.2!important}
+.input-column .plan-column>.group-title{margin-top:5px!important}
+.input-column .plan-column>.field{grid-template-columns:minmax(0,1fr) 112px!important}
+.input-column .plan-column>.field.full{display:block!important}
+.input-column .dynamic-grid th:first-child{width:auto!important}
+.input-column #serviceRows .dynamic-grid th:nth-child(2),.input-column #serviceRows .dynamic-grid td:nth-child(2){width:105px!important}
+.input-column .screen[data-screen="0"] .fields{padding-top:5px!important}
+.input-column .screen[data-screen="0"] .field{grid-template-columns:minmax(0,1fr) 132px!important}
+.input-column .screen[data-screen="1"] .field{grid-template-columns:minmax(0,1fr) 112px!important}
+.input-column .screen[data-screen="1"] .field.full{display:block!important}
+.input-column .screen[data-screen="2"] .field{grid-template-columns:minmax(0,1fr) 112px!important}
+.input-column .screen[data-screen="2"] .field.full{display:block!important}
+@media(max-width:1180px){
+ .input-columns{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .input-column:last-child{grid-column:1/-1}
+}
+@media(max-width:760px){
+ .input-columns{grid-template-columns:1fr!important}
+ .input-column:last-child{grid-column:auto}
+ .input-column .dynamic-grid th,.input-column .dynamic-grid td{font-size:11px!important}
+ .layout{padding:8px 8px 90px}
+}
 </style></head>
 <body><div class="shell">
 <header class="topbar"><div class="brand"><img class="brand-logo" src="https://znak112.ru/wp-content/uploads/2026/01/logo9.png" alt="Логотип ПожзнакЪ"><div class="brand-caption">ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</div></div></header>
@@ -386,7 +444,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 </div>
 </div><section class="panel">
 <div class="input-columns"><div class="input-column">
-<section class="screen" data-screen="0"><div class="panel-head"><div><h2>Общие данные</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
+<section class="screen" data-screen="0"><div class="panel-head"><div><h2>ОБЩИЕ ДАННЫЕ</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
 <div class="fields">
 <div class="field"><label for="package">Пакет франшизы</label><select class="control" id="package"><option value="standard">Стандарт</option><option value="up-to-350">до 350 тыс.</option></select></div>
 <div class="field"><label for="legal">Организационная форма</label><select class="control" id="legal"><option>ИП</option><option>ООО</option></select></div>
@@ -396,7 +454,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="field"><label for="fee">Паушальный взнос</label><div class="suffix"><input class="control" id="fee" type="number" min="0" value="850000"><em>₽</em></div><span class="hint">От 850 000 ₽. Уточните точную сумму для выбранного пакета у франчайзера; поле можно скорректировать.</span></div>
 </div></section>
 </div><div class="input-column">
-<section class="screen" data-screen="1"><div class="panel-head"><div><h2>Первоначальные инвестиции</h2><p class="sub">Укажите расходы, необходимые для запуска филиала. Часть сумм уже заполнена по исходной модели — их можно изменить под свой город.</p></div><span class="section-tag">ШАГ 2 ИЗ 4</span></div>
+<section class="screen" data-screen="1"><div class="panel-head"><div><h2>ИЗМЕНЯЕМЫЕ ДАННЫЕ ПО ИНВЕСТИЦИЯМ</h2><p class="sub">Укажите расходы, необходимые для запуска филиала. Часть сумм уже заполнена по исходной модели — их можно изменить под свой город.</p></div><span class="section-tag">ШАГ 2 ИЗ 4</span></div>
 <div class="fields">
 <div class="group-title">Помещение</div>
 <div class="field"><label for="area">Площадь помещения</label><div class="suffix"><input class="control" id="area" type="number" value="25" min="0"><em>м²</em></div></div>
@@ -413,7 +471,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="field full"><div id="startupRows" class="dynamic-table"></div></div>
 </div></section>
 </div><div class="input-column">
-<section class="screen" data-screen="2"><div class="panel-head"><div><h2>Продажи</h2><p class="sub">Настройте план продаж и основные расходы филиала. Прогноз строится на 24 месяца с постепенным выходом на плановую выручку.</p></div><span class="section-tag">ШАГ 3 ИЗ 4</span></div>
+<section class="screen" data-screen="2"><div class="panel-head"><div><h2>ИЗМЕНЯЕМЫЕ ДАННЫЕ ПО ПРОДАЖАМ</h2><p class="sub">Настройте план продаж и основные расходы филиала. Прогноз строится на 24 месяца с постепенным выходом на плановую выручку.</p></div><span class="section-tag">ШАГ 3 ИЗ 4</span></div>
 <div class="fields">
 <div class="field full"><div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Названия услуг заданы заранее; можно изменить долю каждой услуги в выручке.</p><div id="serviceRows" class="dynamic-table"></div><div class="group-title">План продаж</div>
 <div class="field"><label for="revenue">Плановая выручка в месяц</label><div class="suffix"><input class="control" id="revenue" type="number" value="1450000" min="0"><em>₽</em></div></div>
@@ -673,7 +731,7 @@ function save(){const data={};ids.forEach(id=>data[id]=$(id).value);data.dynamic
 function load(){try{const data=JSON.parse(localStorage.getItem('franchise-finmodel-draft')||'{}');ids.forEach(id=>{if(data[id]!==undefined)$(id).value=data[id]});if(data.dynamic){Object.keys(defaultDynamic).forEach(k=>{if(Array.isArray(data.dynamic[k]))dynamic[k]=data.dynamic[k]})}if(Array.isArray(data.seasonalityValues)&&data.seasonalityValues.length===12)seasonalityValues=data.seasonalityValues.map(v=>Math.max(0,Number(v)||0))}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const lineSum=row=>row.amount!==undefined?Math.max(0,Number(row.amount)||0):Math.max(0,Number(row.qty)||0)*Math.max(0,Number(row.price)||0);
-function renderItemTable(key,containerId){const rows=dynamic[key];$(containerId).innerHTML='<div class="table-wrap"><table class="table dynamic-grid"><thead><tr><th>Наименование</th><th>Ед.</th><th>Цена за ед.</th><th>Сумма</th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td class="item-name">'+esc(r.name)+'</td><td><input aria-label="Количество" type="number" min="0" step="1" data-list="'+key+'" data-index="'+i+'" data-field="qty" value="'+Number(r.qty||0)+'"></td><td><input aria-label="Цена за единицу" type="number" min="0" step="1" data-list="'+key+'" data-index="'+i+'" data-field="price" value="'+Number(r.price||0)+'"></td><td class="num row-sum">'+rub(lineSum(r))+'</td></tr>').join('')+'</tbody></table></div><div class="table-total">Итого: <strong>'+rub(rows.reduce((sum,row)=>sum+lineSum(row),0))+'</strong></div>';}
+function renderItemTable(key,containerId){const rows=dynamic[key];$(containerId).innerHTML='<div class="table-wrap"><table class="table dynamic-grid"><thead><tr><th>Позиция</th><th>Кол-во</th><th>Цена ед.</th><th>Сумма</th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td class="item-name">'+esc(r.name)+'</td><td><input aria-label="Количество" type="number" min="0" step="1" data-list="'+key+'" data-index="'+i+'" data-field="qty" value="'+Number(r.qty||0)+'"></td><td><input aria-label="Цена за единицу" type="number" min="0" step="1" data-list="'+key+'" data-index="'+i+'" data-field="price" value="'+Number(r.price||0)+'"></td><td class="num row-sum">'+rub(lineSum(r))+'</td></tr>').join('')+'</tbody></table></div><div class="table-total">Итого: <strong>'+rub(rows.reduce((sum,row)=>sum+lineSum(row),0))+'</strong></div>';}
 function renderSimpleTable(key,containerId){const rows=dynamic[key];$(containerId).innerHTML=rows.length?'<div class="table-wrap"><table class="table dynamic-grid"><thead><tr><th>Статья</th><th>Сумма, ₽</th></tr></thead><tbody>'+rows.map((r,i)=>'<tr><td class="item-name">'+esc(r.name)+'</td><td><input type="number" min="0" step="1" data-list="'+key+'" data-index="'+i+'" data-field="amount" value="'+Number(r.amount||0)+'" aria-label="Сумма"></td></tr>').join('')+'</tbody></table></div><div class="table-total">Итого: <strong>'+rub(rows.reduce((sum,row)=>sum+lineSum(row),0))+'</strong></div>':'';}
 function renderServices(){const rows=dynamic.services;const total=rows.reduce((sum,row)=>sum+(Number(row.share)||0),0);$('serviceRows').innerHTML='<div class="table-wrap"><table class="table dynamic-grid"><thead><tr><th>Услуга</th><th>Доля выручки, %</th></tr></thead><tbody>'+rows.map((row,i)=>'<tr><td class="item-name">'+esc(row.name)+'</td><td><input type="number" min="0" step="0.1" data-list="services" data-index="'+i+'" data-field="share" value="'+Number(row.share||0)+'" aria-label="Доля выручки"></td></tr>').join('')+'</tbody></table></div><div class="table-total">Распределено: <strong>'+total.toFixed(1).replace('.',',')+'%</strong> <span class="hint">— для полного распределения сумма должна быть 100%.</span></div>';}
 function renderSeasonality(){const months=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];const avg=seasonalityValues.reduce((s,v)=>s+v,0)/12;$('seasonalityRows').innerHTML='<div class="table-wrap"><table class="table dynamic-grid"><thead><tr><th>Месяц</th><th>Сезонность продаж %</th></tr></thead><tbody>'+months.map((m,i)=>'<tr><td>'+m+'</td><td><input type="number" min="0" step="1" data-season-month="'+i+'" value="'+seasonalityValues[i]+'" aria-label="Сезонность: '+m+'"></td></tr>').join('')+'</tbody></table></div><div class="table-total">Ср. значение: <strong>'+Math.round(avg)+'</strong></div>';}
