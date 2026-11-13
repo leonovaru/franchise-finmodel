@@ -66,9 +66,11 @@
         + technicalPayroll + insurance + royalty + household + communications
         + accounting + printing + marketing + contractors;
 
-      // УСН 6% — формула исходной книги. УСН 15% — временное приближение,
-      // пока заказчик не подтвердит налоговую методику и учёт страховых взносов.
-      const tax = Math.max(0, revenue - expensesBeforeTax) * 0.15;
+      // УСН «доходы» — 6% от выручки. УСН «доходы минус расходы» —
+      // сохраняем прежнее приближение 15% от положительной разницы.
+      const taxRate = Number(p.tax) === 6 ? 0.06 : 0.15;
+      const taxBase = Number(p.tax) === 6 ? revenue : Math.max(0, revenue - expensesBeforeTax);
+      const tax = taxBase * taxRate;
 
       const expenses = expensesBeforeTax + tax;
       const profit = revenue - expenses;
