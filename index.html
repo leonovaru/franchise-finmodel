@@ -420,7 +420,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="fields">
 <div class="field full"><div class="seasonality-plan-grid">
 <div class="seasonality-column"><div class="group-title">Сезонность продаж</div><div id="seasonalityRows" class="dynamic-table"></div><p class="hint">Коэффициенты применяются к плановой выручке соответствующего календарного месяца. Среднее значение рассчитывается автоматически.</p></div>
-<div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Можно добавить новые направления.</p><div id="serviceRows" class="dynamic-table"></div><div class="group-title">План продаж</div>
+<div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Названия услуг заданы заранее; можно изменить долю каждой услуги в выручке.</p><div id="serviceRows" class="dynamic-table"></div><div class="group-title">План продаж</div>
 <div class="field"><label for="revenue">Плановая выручка в месяц</label><div class="suffix"><input class="control" id="revenue" type="number" value="1450000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="ramp">Выход на плановую выручку</label><div class="suffix"><input class="control" id="ramp" type="number" value="7" min="1" max="24"><em>мес.</em></div></div>
 <div class="field"><label for="firstMonth">Загрузка в первый месяц</label><div class="suffix"><input class="control" id="firstMonth" type="number" value="12" min="0" max="100"><em>%</em></div></div>
@@ -692,4 +692,20 @@ function renderSeasonality(){const months=['Январь','Февраль','Ма
 function renderDynamic(){renderItemTable('furnitureItems','furnitureRows');renderItemTable('officeItems','officeRows');renderItemTable('equipmentItems','equipmentRows');renderSimpleTable('startupItems','startupRows');renderSimpleTable('monthlyItems','monthlyRows');renderServices();renderSeasonality();}
 function updateDynamicInput(e){const t=e.target;if(!t.dataset.list)return;const listKey=t.dataset.list,row=dynamic[listKey]?.[Number(t.dataset.index)];if(!row)return;const key=t.dataset.field;row[key]=key==='name'?t.value:(Number(t.value)||0);const tr=t.closest('tr');if(tr&&listKey.endsWith('Items')&&key!=='name'){const sum=tr.querySelector('.row-sum');if(sum)sum.textContent=rub(lineSum(row));}const containers={furnitureItems:'furnitureRows',officeItems:'officeRows',equipmentItems:'equipmentRows',startupItems:'startupRows',monthlyItems:'monthlyRows',services:'serviceRows'};const box=$(containers[listKey]);const total=box?.querySelector('.table-total strong');if(total){const amount=listKey==='services'?dynamic.services.reduce((s,x)=>s+(Number(x.share)||0),0):dynamic[listKey].reduce((s,x)=>s+lineSum(x),0);total.textContent=listKey==='services'?amount.toFixed(1).replace('.',',')+'%':rub(amount);}save();if(step===3)render();}
 document.addEventListener('input',e=>{const t=e.target;if(t.dataset.seasonMonth!==undefined){seasonalityValues[Number(t.dataset.seasonMonth)]=Math.max(0,Number(t.value)||0);const avg=seasonalityValues.reduce((s,v)=>s+v,0)/12;const strong=$('seasonalityRows').querySelector('.table-total strong');if(strong)strong.textContent=Math.round(avg)+'%';save();return;}updateDynamicInput(e);});
-document.addEventListener('click',e=>{const resultTab=e.target.closest('[data-result-tab]');if(resultTab){activateResultTab(resultTab.dataset.resultTab);return;}});>
+document.addEventListener('click',e=>{
+ const sheetTab=e.target.closest('[data-sheet-tab]');
+ if(sheetTab){setSheetView(sheetTab.dataset.sheetTab);return;}
+ const resultTab=e.target.closest('[data-result-tab]');
+ if(resultTab){activateResultTab(resultTab.dataset.resultTab);return;}
+});
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1800)}
+ids.forEach(id=>$(id).addEventListener('input',()=>{save();$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'))}));
+$('exportPdf').onclick=exportFullPdf;
+$('next').onclick=()=>{render();toast('Расчёт обновлён')};
+$('back').onclick=()=>{};
+$('reset').onclick=()=>{if(confirm('Сбросить все введённые данные?')){ids.forEach(id=>$(id).value=defaults[id]);dynamic=JSON.parse(JSON.stringify(defaultDynamic));seasonalityValues=[...defaultSeasonality];localStorage.removeItem('franchise-finmodel-draft');renderDynamic();step=0;activeView='inputs';show();render();toast('Данные сброшены')}};
+load();
+renderDynamic();
+$('rentMonthlyDisplay').textContent=rub(num('area')*num('rent'));
+show();
+</script></body></html>
