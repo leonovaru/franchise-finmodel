@@ -341,40 +341,36 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 }
 
 
-/* Компактный лист входных данных: две колонки, как в Excel */
-.input-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start}
+/* Три колонки входных данных */
+.input-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
 .input-column{display:flex;flex-direction:column;gap:14px;min-width:0}
-.input-column .screen{display:block!important;margin:0!important;padding:15px 16px!important;border:1px solid var(--line)!important;border-radius:10px;background:#fff}
+.input-column .screen{display:block!important;margin:0!important;padding:18px!important;border:1px solid var(--line)!important;border-radius:10px;background:#fff}
 .input-column .screen.hidden{display:none!important}
-.input-column .panel-head{margin:0 0 10px!important}
+.input-column .panel-head{margin:0 0 14px!important}
 .input-column .panel-head .sub{display:none}
-.input-column .panel h2,.input-column h2{font-size:15px!important;letter-spacing:0;margin:0}
-.input-column .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px 12px}
-.input-column .field{gap:3px;min-width:0}
-.input-column .field label{font-size:10px;line-height:1.2}
-.input-column .control{height:29px!important;min-height:29px;padding:0 7px;font-size:11px!important;border-radius:5px}
-.input-column .suffix em{top:8px;font-size:9px}
-.input-column .group-title{font-size:9px;padding-top:7px;margin-top:2px;letter-spacing:.7px}
+.input-column .panel h2,.input-column h2{font-size:18px!important;letter-spacing:0;margin:0}
+.input-column .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.input-column .field{gap:5px;min-width:0}
+.input-column .field label{font-size:13px;line-height:1.3}
+.input-column .control{height:36px!important;min-height:36px;padding:0 9px;font-size:14px!important;border-radius:6px}
+.input-column .suffix em{top:10px;font-size:11px}
+.input-column .group-title{font-size:12px;padding-top:11px;margin-top:4px;letter-spacing:.5px}
 .input-column .field.full,.input-column .fields>.group-title{grid-column:1/-1}
-.input-column .dynamic-grid{table-layout:fixed;width:100%;min-width:0!important}
-.input-column .dynamic-grid th{font-size:8px!important;padding:0 4px 5px!important}
-.input-column .dynamic-grid td{font-size:10px!important;padding:3px 4px!important}
-.input-column .dynamic-grid td:first-child{width:48%;min-width:0!important}
-.input-column .dynamic-grid td:nth-child(2),.input-column .dynamic-grid td:nth-child(3){width:19%}
-.input-column .dynamic-grid td:last-child{width:14%}
-.input-column .dynamic-grid input{height:26px!important;min-width:0!important;width:100%;font-size:10px!important;padding:0 5px}
-.input-column .dynamic-grid .item-name{font-size:9px!important;line-height:1.2;overflow-wrap:anywhere}
-.input-column .table-total{font-size:9px;padding:5px 4px}
-.input-column .table-total strong{font-size:11px}
-.input-column .seasonality-plan-grid{grid-template-columns:minmax(0,1fr);gap:10px}
-.input-column .seasonality-plan-grid .plan-column{gap:7px}
-.input-column .seasonality-column .dynamic-grid td:first-child{width:40%}
-.input-column .seasonality-column .dynamic-grid td:nth-child(2){width:60%}
-.input-column .seasonality-column .dynamic-grid input{height:24px!important}
-.input-column .hint{font-size:9px;line-height:1.25}
-.input-column #rentMonthlyDisplay{height:29px!important;min-height:29px!important;font-size:11px}
-@media(max-width:850px){.input-columns{grid-template-columns:1fr}.input-column{gap:12px}}
-@media(max-width:560px){.input-column .fields{grid-template-columns:repeat(2,minmax(0,1fr))}.input-column .screen{padding:12px!important}}
+.input-column .dynamic-grid{table-layout:auto;width:100%;min-width:0!important}
+.input-column .dynamic-grid th{font-size:11px!important;padding:0 6px 7px!important;white-space:normal}
+.input-column .dynamic-grid td{font-size:12px!important;padding:5px 6px!important}
+.input-column .dynamic-grid td:first-child{width:auto;min-width:0!important}
+.input-column .dynamic-grid td:nth-child(2){width:68px}
+.input-column .dynamic-grid td:nth-child(3){width:100px}
+.input-column .dynamic-grid td:last-child{width:105px}
+.input-column .dynamic-grid input{height:32px!important;min-width:0!important;width:100%;font-size:13px!important;padding:0 7px}
+.input-column .dynamic-grid .item-name{font-size:12px!important;line-height:1.3;overflow-wrap:anywhere}
+.input-column .table-total{font-size:12px;padding:7px 6px}
+.input-column .table-total strong{font-size:14px}
+.input-column .plan-column{display:flex;flex-direction:column;gap:10px}
+.input-column .hint{font-size:11px;line-height:1.35}
+@media(max-width:1150px){.input-columns{grid-template-columns:repeat(2,minmax(0,1fr))}.input-column:last-child{grid-column:1/-1}}
+@media(max-width:760px){.input-columns{grid-template-columns:1fr}.input-column:last-child{grid-column:auto}.input-column .screen{padding:14px!important}}
 </style></head>
 <body><div class="shell">
 <header class="topbar"><div class="brand"><img class="brand-logo" src="https://znak112.ru/wp-content/uploads/2026/01/logo9.png" alt="Логотип ПожзнакЪ"><div class="brand-caption">ФИНАНСОВАЯ МОДЕЛЬ ФРАНШИЗЫ</div></div></header>
@@ -389,7 +385,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 
 </div>
 </div><section class="panel">
-<div class="input-columns"><div class="input-column input-column-left">
+<div class="input-columns"><div class="input-column">
 <section class="screen" data-screen="0"><div class="panel-head"><div><h2>Общие данные</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
 <div class="fields">
 <div class="field"><label for="package">Пакет франшизы</label><select class="control" id="package"><option value="standard">Стандарт</option><option value="up-to-350">до 350 тыс.</option></select></div>
@@ -399,6 +395,7 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="field"><label for="royalty">Ежемесячное роялти</label><div class="suffix"><input class="control" id="royalty" type="number" min="0" value="25000"><em>₽</em></div><span class="hint">Фиксированное роялти по опубликованным условиям франшизы.</span></div>
 <div class="field"><label for="fee">Паушальный взнос</label><div class="suffix"><input class="control" id="fee" type="number" min="0" value="850000"><em>₽</em></div><span class="hint">От 850 000 ₽. Уточните точную сумму для выбранного пакета у франчайзера; поле можно скорректировать.</span></div>
 </div></section>
+</div><div class="input-column">
 <section class="screen" data-screen="1"><div class="panel-head"><div><h2>Первоначальные инвестиции</h2><p class="sub">Укажите расходы, необходимые для запуска филиала. Часть сумм уже заполнена по исходной модели — их можно изменить под свой город.</p></div><span class="section-tag">ШАГ 2 ИЗ 4</span></div>
 <div class="fields">
 <div class="group-title">Помещение</div>
@@ -415,27 +412,15 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 <div class="field"><label for="print">Печатная продукция</label><div class="suffix"><input class="control" id="print" type="number" value="10000" min="0"><em>₽</em></div></div>
 <div class="field full"><div id="startupRows" class="dynamic-table"></div></div>
 </div></section>
-</div><div class="input-column input-column-right">
-<section class="screen" data-screen="2"><div class="panel-head"><div><h2>Продажи и ежемесячные расходы</h2><p class="sub">Настройте план продаж и основные расходы филиала. Прогноз строится на 24 месяца с постепенным выходом на плановую выручку.</p></div><span class="section-tag">ШАГ 3 ИЗ 4</span></div>
+</div><div class="input-column">
+<section class="screen" data-screen="2"><div class="panel-head"><div><h2>Продажи</h2><p class="sub">Настройте план продаж и основные расходы филиала. Прогноз строится на 24 месяца с постепенным выходом на плановую выручку.</p></div><span class="section-tag">ШАГ 3 ИЗ 4</span></div>
 <div class="fields">
-<div class="field full"><div class="seasonality-plan-grid">
-<div class="seasonality-column"><div class="group-title">Сезонность продаж</div><div id="seasonalityRows" class="dynamic-table"></div><p class="hint">Коэффициенты применяются к плановой выручке соответствующего календарного месяца. Среднее значение рассчитывается автоматически.</p></div>
-<div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Названия услуг заданы заранее; можно изменить долю каждой услуги в выручке.</p><div id="serviceRows" class="dynamic-table"></div><div class="group-title">План продаж</div>
+<div class="field full"><div class="plan-column"><div class="group-title">Структура услуг</div><p class="hint">Доли услуг задают распределение плановой выручки. В исходной модели две основные услуги составляли 60% и 40%. Названия услуг заданы заранее; можно изменить долю каждой услуги в выручке.</p><div id="serviceRows" class="dynamic-table"></div><div class="group-title">План продаж</div>
 <div class="field"><label for="revenue">Плановая выручка в месяц</label><div class="suffix"><input class="control" id="revenue" type="number" value="1450000" min="0"><em>₽</em></div></div>
 <div class="field"><label for="ramp">Выход на плановую выручку</label><div class="suffix"><input class="control" id="ramp" type="number" value="7" min="1" max="24"><em>мес.</em></div></div>
 <div class="field"><label for="firstMonth">Загрузка в первый месяц</label><div class="suffix"><input class="control" id="firstMonth" type="number" value="12" min="0" max="100"><em>%</em></div></div>
 </div></div></div>
-<div class="group-title">Ежемесячные расходы</div>
-<div class="field"><label>Аренда помещения в месяц</label><div class="control" id="rentMonthlyDisplay" style="display:flex;align-items:center;background:#f7f9fc">25 000 ₽</div><span class="hint">Рассчитывается автоматически: площадь × ставка за м².</span></div>
-<div class="field"><label for="manager">Фонд оплаты управленческого персонала</label><div class="suffix"><input class="control" id="manager" type="number" value="110000" min="0"><em>₽</em></div></div>
-<div class="field"><label for="admin">Фонд оплаты административного персонала</label><div class="suffix"><input class="control" id="admin" type="number" value="75000" min="0"><em>₽</em></div></div>
-<div class="field"><label for="tech">Оклад одного технического специалиста во 2–3-й месяц</label><div class="suffix"><input class="control" id="tech" type="number" value="70000" min="0"><em>₽</em></div><span class="hint">Далее в исходной модели ФОТ двух специалистов составляет 25% выручки.</span></div>
-<div class="field"><label for="house">Хозяйственные расходы</label><div class="suffix"><input class="control" id="house" type="number" value="5000" min="0"><em>₽</em></div></div>
-<div class="field"><label for="connection">Связь и интернет</label><div class="suffix"><input class="control" id="connection" type="number" value="10000" min="0"><em>₽</em></div></div>
-<div class="field"><label for="accounting">Бухгалтерские услуги со 2-го месяца</label><div class="suffix"><input class="control" id="accounting" type="number" value="10000" min="0"><em>₽</em></div><span class="hint">В первый месяц исходная модель учитывает 15 000 ₽.</span></div>
-<div class="field full"><div id="monthlyRows" class="dynamic-table"></div></div>
-<div class="field"><label for="marketing">Маркетинг в месяц</label><div class="suffix"><input class="control" id="marketing" type="number" value="40000" min="0"><em>₽</em></div></div>
-<div class="field"><label for="contractors">Подрядчики и прочие переменные расходы</label><div class="suffix"><input class="control" id="contractors" type="number" value="0" min="0"><em>₽</em></div></div>
+</div></div><div hidden><div id="seasonalityRows"></div><div id="monthlyRows"></div></div>
 </div></section>
 </div></div>
 <section class="screen hidden" data-screen="3">
@@ -466,6 +451,9 @@ body:not([data-view="inputs"]) .actions{justify-content:flex-end}
 </section>
 </div>
 </section>
+<div hidden>
+<input id="manager" type="hidden" value="110000"><input id="admin" type="hidden" value="75000"><input id="tech" type="hidden" value="70000"><input id="house" type="hidden" value="5000"><input id="connection" type="hidden" value="10000"><input id="accounting" type="hidden" value="10000"><input id="marketing" type="hidden" value="40000"><input id="contractors" type="hidden" value="0"><div id="rentMonthlyDisplay">25 000 ₽</div>
+</div>
 <div class="actions"><button class="btn btn-ghost" id="back" disabled>← Назад</button><div class="action-right"><button class="btn btn-link" id="reset">Сбросить</button><button class="btn btn-ghost" id="exportPdf">Скачать PDF</button><button class="btn btn-primary" id="next">Продолжить →</button></div></div>
 </section></div>
 
