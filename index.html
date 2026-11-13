@@ -497,12 +497,8 @@ body.compact-result .sales-numbers-table td:last-child{width:72px!important}
 <div class="input-columns"><div class="input-column">
 <section class="screen" data-screen="0"><div class="panel-head"><div><h2>ОБЩИЕ ДАННЫЕ</h2><p class="sub">Расскажите о будущем филиале и выберите параметры расчёта.</p></div><span class="section-tag">ШАГ 1 ИЗ 4</span></div>
 <div class="fields">
-<div class="field"><label for="package">Пакет франшизы</label><select class="control" id="package"><option value="standard">Стандарт</option><option value="up-to-350">до 350 тыс.</option></select></div>
-<div class="field"><label for="legal">Организационная форма</label><select class="control" id="legal"><option>ИП</option><option>ООО</option></select></div>
-<div class="field"><label for="tax">Система налогообложения</label><select class="control" id="tax"><option value="15">УСН · доходы минус расходы 15%</option></select></div>
+<div class="field"><label for="tax">Система налогообложения</label><select class="control" id="tax"><option value="15">УСН (доходы минус расходы)</option><option value="6">УСН (доходы)</option></select></div>
 <div class="field"><label for="start">Планируемый месяц запуска</label><input class="control" id="start" type="month" value="2026-12"></div>
-<div class="field"><label for="royalty">Ежемесячное роялти</label><div class="suffix"><input class="control" id="royalty" type="number" min="0" value="25000"><em>₽</em></div><span class="hint">Фиксированное роялти по опубликованным условиям франшизы.</span></div>
-<div class="field"><label for="fee">Паушальный взнос</label><div class="suffix"><input class="control" id="fee" type="number" min="0" value="850000"><em>₽</em></div><span class="hint">От 850 000 ₽. Уточните точную сумму для выбранного пакета у франчайзера; поле можно скорректировать.</span></div>
 </div></section>
 </div><div class="input-column">
 <section class="screen" data-screen="1"><div class="panel-head"><div><h2>ИЗМЕНЯЕМЫЕ ДАННЫЕ ПО ИНВЕСТИЦИЯМ</h2><p class="sub">Укажите расходы, необходимые для запуска филиала. Часть сумм уже заполнена по исходной модели — их можно изменить под свой город.</p></div><span class="section-tag">ШАГ 2 ИЗ 4</span></div>
@@ -561,7 +557,7 @@ body.compact-result .sales-numbers-table td:last-child{width:72px!important}
 </div>
 </section>
 <div hidden>
-<input id="manager" type="hidden" value="110000"><input id="admin" type="hidden" value="75000"><input id="tech" type="hidden" value="70000"><input id="house" type="hidden" value="5000"><input id="connection" type="hidden" value="10000"><input id="accounting" type="hidden" value="10000"><input id="marketing" type="hidden" value="40000"><input id="contractors" type="hidden" value="0"><div id="rentMonthlyDisplay">25 000 ₽</div>
+<input id="package" type="hidden" value="standard"><input id="legal" type="hidden" value="ИП"><input id="royalty" type="hidden" value="25000"><input id="fee" type="hidden" value="850000"><input id="manager" type="hidden" value="110000"><input id="admin" type="hidden" value="75000"><input id="tech" type="hidden" value="70000"><input id="house" type="hidden" value="5000"><input id="connection" type="hidden" value="10000"><input id="accounting" type="hidden" value="10000"><input id="marketing" type="hidden" value="40000"><input id="contractors" type="hidden" value="0"><div id="rentMonthlyDisplay">25 000 ₽</div>
 </div>
 <div class="actions"><button class="btn btn-ghost" id="back" disabled>← Назад</button><div class="action-right"><button class="btn btn-link" id="reset">Сбросить</button><button class="btn btn-ghost" id="exportPdf">Скачать PDF</button><button class="btn btn-primary" id="next">Продолжить →</button></div></div>
 </section></div>
